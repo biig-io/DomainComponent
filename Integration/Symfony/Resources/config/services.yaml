@@ -1,0 +1,12 @@
+services:
+    biig_domain.dispatcher:
+        class: Biig\Component\Domain\Event\DomainEventDispatcher
+
+    biig_domain.instantiator.default:
+        class: Biig\Component\Domain\Model\Instantiator\Instantiator
+        arguments:
+            - "@biig_domain.dispatcher"
+
+    Biig\Component\Domain\Model\Instantiator\DoctrineConfig\EntityManagerConfigurator:
+        arguments:
+            - "@biig_domain.dispatcher"
