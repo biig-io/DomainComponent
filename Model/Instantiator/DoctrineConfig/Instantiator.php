@@ -11,20 +11,13 @@ use Biig\Component\Domain\Model\Instantiator\Instantiator as BaseInstantiator;
  */
 class Instantiator extends BaseInstantiator implements InstantiatorInterface
 {
-    /**
-     * @var InstantiatorInterface
-     */
-    private $instantiator;
-
-    public function __construct(DomainEventDispatcher $dispatcher, InstantiatorInterface $instantiator = null)
+    public function __construct(DomainEventDispatcher $dispatcher)
     {
         parent::__construct($dispatcher);
-        $this->instantiator = $instantiator;
     }
 
-    public function instantiate($className)
+    public function instantiate($object)
     {
-        $object = $this->instantiator->instantiate($className);
         $this->injectDispatcher($object);
 
         return $object;

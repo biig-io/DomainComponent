@@ -1,0 +1,11 @@
+FakeModel:
+  type: entity
+  table: fake_model
+  id:
+    id:
+      type: integer
+      generator:
+        strategy: AUTO
+  foo:
+    name:
+      type: string

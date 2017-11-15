@@ -13,18 +13,15 @@ class InstantiatorTest extends TestCase
 {
     public function testItIsInstanceOfInstantiatorOfDoctrine()
     {
-        $doctrineInstantiator = $this->prophesize(InstantiatorInterface::class);
-        $instantiator = new Instantiator(new DomainEventDispatcher(), $doctrineInstantiator->reveal());
+        $instantiator = new Instantiator(new DomainEventDispatcher());
         $this->assertInstanceOf(InstantiatorInterface::class, $instantiator);
     }
 
     public function testItUseTheGivenInstantiator()
     {
-        $doctrineInstantiator = $this->prophesize(InstantiatorInterface::class);
-        $doctrineInstantiator->instantiate(\FakeModel::class)->willReturn(new \FakeModel)->shouldBeCalled();
-        $instantiator = new Instantiator(new DomainEventDispatcher(), $doctrineInstantiator->reveal());
+        $instantiator = new Instantiator(new DomainEventDispatcher());
 
-        $model = $instantiator->instantiate(\FakeModel::class);
+        $model = $instantiator->instantiate(new \FakeModel);
         $this->assertTrue($model->hasDispatcher());
     }
 }
