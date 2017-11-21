@@ -3,6 +3,7 @@
 namespace Biig\Component\Domain\Integration\Symfony\DependencyInjection;
 
 use Biig\Component\Domain\Model\Instantiator\DoctrineConfig\ClassMetadataFactory;
+use Biig\Component\Domain\Rule\DomainRuleInterface;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Extension\Extension;
@@ -11,6 +12,8 @@ use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 
 class DomainExtension extends Extension implements PrependExtensionInterface
 {
+    const DOMAIN_RULE_TAG = 'biig_domain.rule';
+
     public function load(array $configs, ContainerBuilder $container)
     {
         $loader = new YamlFileLoader(
@@ -23,6 +26,8 @@ class DomainExtension extends Extension implements PrependExtensionInterface
         $config = $this->processConfiguration($configuration, $configs);
 
         $container->setParameter('biig_domain_doctrine_domain_event_instantiator', $config['override_doctrine_instantiator']);
+
+        $container->registerForAutoconfiguration(DomainRuleInterface::class)->addTag(DomainExtension::DOMAIN_RULE_TAG);
     }
 
     /**
