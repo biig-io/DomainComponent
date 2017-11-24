@@ -14,7 +14,7 @@ class EntityManagerConfigurator
         $this->dispatcher = $dispatcher;
     }
 
-    public function configure (EntityManager $entityManager)
+    public function configure(EntityManager $entityManager)
     {
         $metadataFactory = $entityManager->getMetadataFactory();
 

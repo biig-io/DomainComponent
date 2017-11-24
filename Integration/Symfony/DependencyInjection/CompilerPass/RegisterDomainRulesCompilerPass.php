@@ -23,14 +23,12 @@ class RegisterDomainRulesCompilerPass implements CompilerPassInterface
             $class = $container->getParameterBag()->resolveValue($def->getClass());
 
             if (!is_subclass_of($class, DomainRuleInterface::class) || $this->notEmpty($attributes)) {
-
                 foreach ($attributes as $attribute) {
                     $this->addListenerForEventsInDefinition($id, $class, $attribute, $definition);
                 }
-
             } else {
                 $definition->addMethodCall('addRule', [
-                    new Reference($id)
+                    new Reference($id),
                 ]);
             }
         }
@@ -41,13 +39,14 @@ class RegisterDomainRulesCompilerPass implements CompilerPassInterface
      * @param string     $class
      * @param array      $attribute
      * @param Definition $definition
+     *
      * @throws InvalidArgumentException
      */
     private function addListenerForEventsInDefinition(string $id, string $class, array $attribute, Definition $definition)
     {
         // Rules may not implement the
-        $method   = $attribute['method'] ?? null;
-        $event    = $attribute['event'] ?? null;
+        $method = $attribute['method'] ?? null;
+        $event = $attribute['event'] ?? null;
         $priority = $attribute['priority'] ?? 0;
 
         if (!class_exists($class, false)) {
@@ -66,7 +65,7 @@ class RegisterDomainRulesCompilerPass implements CompilerPassInterface
         $definition->addMethodCall('addListener', [
             $event,
             [new ServiceClosureArgument(new Reference($id)), $method],
-            $priority
+            $priority,
         ]);
     }
 
@@ -74,6 +73,7 @@ class RegisterDomainRulesCompilerPass implements CompilerPassInterface
      * `!empty()` is not enough to check multidimensional arrays emptiness.
      *
      * @param array $attributes
+     *
      * @return bool
      */
     private function notEmpty(array $attributes)

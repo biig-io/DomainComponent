@@ -2,8 +2,8 @@
 
 namespace Biig\Component\Domain\Model;
 
-use Biig\Component\Domain\Event\DomainEventDispatcher;
 use Biig\Component\Domain\Event\DomainEvent;
+use Biig\Component\Domain\Event\DomainEventDispatcher;
 
 abstract class DomainModel implements ModelInterface
 {
@@ -15,7 +15,7 @@ abstract class DomainModel implements ModelInterface
     /**
      * This is a patch to support events on instantiation. This is done because on construction the event dispatcher
      * is not available. Because Doctrine does not call the constructor on any object instantiation. But events are
-     * unstacked as soon as the event dispatcher is available. (which must happen just after the construction)
+     * unstacked as soon as the event dispatcher is available. (which must happen just after the construction).
      *
      * @var array
      */

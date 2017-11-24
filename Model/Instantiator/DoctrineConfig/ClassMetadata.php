@@ -3,8 +3,8 @@
 namespace Biig\Component\Domain\Model\Instantiator\DoctrineConfig;
 
 use Doctrine\Instantiator\InstantiatorInterface;
-use Doctrine\ORM\Mapping\NamingStrategy;
 use Doctrine\ORM\Mapping\ClassMetadata as BaseClassMetadata;
+use Doctrine\ORM\Mapping\NamingStrategy;
 
 /**
  * Class ClassMetadata for domain dispatcher injection.

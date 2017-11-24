@@ -16,7 +16,6 @@ class VerifyDoctrineConfigurationCompilerPass implements CompilerPassInterface
     public function process(ContainerBuilder $container)
     {
         if ($container->getParameter('biig_domain_doctrine_domain_event_instantiator')) {
-
             $definitions = $container->getDefinitions();
 
             foreach ($definitions as $name => $definition) {
@@ -30,6 +29,7 @@ class VerifyDoctrineConfigurationCompilerPass implements CompilerPassInterface
 
     /**
      * @param array $calls
+     *
      * @throws InvalidConfigurationException
      */
     private function verifyCalls(array $calls)

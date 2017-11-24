@@ -27,7 +27,7 @@ class DomainExtension extends Extension implements PrependExtensionInterface
 
         $container->setParameter('biig_domain_doctrine_domain_event_instantiator', $config['override_doctrine_instantiator']);
 
-        $container->registerForAutoconfiguration(DomainRuleInterface::class)->addTag(DomainExtension::DOMAIN_RULE_TAG);
+        $container->registerForAutoconfiguration(DomainRuleInterface::class)->addTag(self::DOMAIN_RULE_TAG);
     }
 
     /**
@@ -42,14 +42,12 @@ class DomainExtension extends Extension implements PrependExtensionInterface
         $bundles = $container->getParameter('kernel.bundles');
 
         if (isset($bundles['DoctrineBundle'])) {
-
             // Pre-process the configuration
             $configs = $container->getExtensionConfig($this->getAlias());
             $config = $this->processConfiguration(new Configuration(), $configs);
 
             // This is true by default
             if ($config['override_doctrine_instantiator']) {
-
                 $doctrineConfig = $container->getExtensionConfig('doctrine');
                 $doctrineClassMetadataFactoryConfig = $this->buildClassMetadataFactoryConfig($doctrineConfig);
 
@@ -69,14 +67,14 @@ class DomainExtension extends Extension implements PrependExtensionInterface
             'orm' => [
                 'entity_managers' => [
                     'default' => [
-                        'class_metadata_factory_name' => ClassMetadataFactory::class
-                    ]
-                ]
-            ]
+                        'class_metadata_factory_name' => ClassMetadataFactory::class,
+                    ],
+                ],
+            ],
         ];
 
         if (isset($doctrineConfig[0]['orm']['entity_managers'])) {
-            foreach($doctrineConfig[0]['orm']['entity_managers'] as $entityManagerName => $entityManagerConf) {
+            foreach ($doctrineConfig[0]['orm']['entity_managers'] as $entityManagerName => $entityManagerConf) {
                 $doctrineClassMetadataFactoryConfig['orm']['entity_managers'][$entityManagerName]['class_metadata_factory_name'] = ClassMetadataFactory::class;
             }
         }

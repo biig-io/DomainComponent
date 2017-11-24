@@ -2,7 +2,6 @@
 
 namespace Biig\Component\Domain\Integration\Symfony\DependencyInjection\CompilerPass;
 
-
 use Biig\Component\Domain\Model\Instantiator\DoctrineConfig\EntityManagerConfigurator;
 use Symfony\Component\DependencyInjection\ChildDefinition;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
