@@ -21,6 +21,7 @@ class RegisterDomainRulesCompilerPassTest extends TestCase
         $registerListenersPass = new RegisterDomainRulesCompilerPass();
         $registerListenersPass->process($container);
 
+        $container->getDefinition('biig_domain.dispatcher')->setPublic(true);
         $container->compile();
 
         /** @var DomainEventDispatcher $dispatcher */
@@ -42,6 +43,7 @@ class RegisterDomainRulesCompilerPassTest extends TestCase
         $registerListenersPass = new RegisterDomainRulesCompilerPass();
         $registerListenersPass->process($container);
 
+        $container->getDefinition('biig_domain.dispatcher')->setPublic(true);
         $container->compile();
 
         /** @var DomainEventDispatcher $dispatcher */
@@ -63,6 +65,7 @@ class RegisterDomainRulesCompilerPassTest extends TestCase
         $registerListenersPass = new RegisterDomainRulesCompilerPass();
         $registerListenersPass->process($container);
 
+        $container->getDefinition('biig_domain.dispatcher')->setPublic(true);
         $container->compile();
 
         /** @var DomainEventDispatcher $dispatcher */
