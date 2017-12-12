@@ -2,6 +2,7 @@
 
 namespace Biig\Component\Domain\Integration\Symfony;
 
+use Biig\Component\Domain\Integration\Symfony\DependencyInjection\CompilerPass\EnableDomainDenormalizerCompilerPass;
 use Biig\Component\Domain\Integration\Symfony\DependencyInjection\CompilerPass\InsertDispatcherInClassMetadataFactoryCompilerPass;
 use Biig\Component\Domain\Integration\Symfony\DependencyInjection\CompilerPass\RegisterDomainRulesCompilerPass;
 use Biig\Component\Domain\Integration\Symfony\DependencyInjection\CompilerPass\VerifyDoctrineConfigurationCompilerPass;
@@ -26,5 +27,6 @@ class DomainBundle extends Bundle
         $container->addCompilerPass(new VerifyDoctrineConfigurationCompilerPass());
         $container->addCompilerPass(new InsertDispatcherInClassMetadataFactoryCompilerPass());
         $container->addCompilerPass(new RegisterDomainRulesCompilerPass());
+        $container->addCompilerPass(new EnableDomainDenormalizerCompilerPass());
     }
 }
