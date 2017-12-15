@@ -2,9 +2,12 @@
 
 namespace Biig\Component\Domain\Tests\Symfony\DependencyInjection\Serializer;
 
+require_once (__DIR__ . '/../../fixtures/FakeModel.php');
+
 use Biig\Component\Domain\Event\DomainEventDispatcher;
 use Biig\Component\Domain\Integration\Symfony\Serializer\ApiPlatformDomainDenormalizer;
 use PHPUnit\Framework\TestCase;
+use Symfony\Component\Serializer\Normalizer\AbstractNormalizer;
 use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
@@ -22,8 +25,7 @@ class ApiPlatformDomainDenormalizerTest extends TestCase
 
     public function setUp()
     {
-        $this->decorated = $this->prophesize(NormalizerInterface::class);
-        $this->decorated->willImplement(DenormalizerInterface::class);
+        $this->decorated = $this->prophesize(AbstractNormalizer::class);
         $this->dispatcher = $this->prophesize(DomainEventDispatcher::class);
     }
 
@@ -37,8 +39,8 @@ class ApiPlatformDomainDenormalizerTest extends TestCase
     {
         $denormalizer =  new ApiPlatformDomainDenormalizer($this->decorated->reveal(), $this->dispatcher->reveal());
 
-        $this->decorated->denormalize([], \stdClass::class, null)->willReturn(false);
-        $this->decorated->denormalize([], \FakeModel::class, null)->willReturn(true);
+        $this->decorated->supportsDenormalization([], \stdClass::class, null)->willReturn(false);
+        $this->decorated->supportsDenormalization([], \FakeModel::class, null)->willReturn(true);
 
         $this->assertFalse($denormalizer->supportsDenormalization([], \stdClass::class));
 

@@ -2,6 +2,8 @@
 
 namespace Biig\Component\Domain\Tests\Symfony\DependencyInjection\Serializer;
 
+require_once (__DIR__ . '/../../fixtures/FakeModel.php');
+
 use Biig\Component\Domain\Event\DomainEventDispatcher;
 use Biig\Component\Domain\Integration\Symfony\Serializer\DomainDenormalizer;
 use PHPUnit\Framework\TestCase;

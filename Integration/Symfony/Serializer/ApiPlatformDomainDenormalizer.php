@@ -4,6 +4,7 @@ namespace Biig\Component\Domain\Integration\Symfony\Serializer;
 
 use Biig\Component\Domain\Event\DomainEventDispatcher;
 use Biig\Component\Domain\Model\DomainModel;
+use Symfony\Component\Serializer\Normalizer\AbstractNormalizer;
 use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 use Symfony\Component\Serializer\SerializerAwareInterface;
@@ -14,11 +15,11 @@ final class ApiPlatformDomainDenormalizer implements NormalizerInterface, Denorm
     use DomainModelDenormalizer;
 
     /**
-     * @var NormalizerInterface
+     * @var AbstractNormalizer
      */
     private $decorated;
 
-    public function __construct(NormalizerInterface $decorated, DomainEventDispatcher $dispatcher)
+    public function __construct(AbstractNormalizer $decorated, DomainEventDispatcher $dispatcher)
     {
         $this->decorated = $decorated;
         $this->dispatcher = $dispatcher;
@@ -29,7 +30,10 @@ final class ApiPlatformDomainDenormalizer implements NormalizerInterface, Denorm
      */
     public function supportsDenormalization($data, $type, $format = null)
     {
-        return $this->decorated->denormalize($data, $type, $format) && is_subclass_of($type, DomainModel::class);
+        return
+            $this->decorated->supportsDenormalization($data, $type, $format)
+            && is_subclass_of($type, DomainModel::class)
+        ;
     }
 
     /**
