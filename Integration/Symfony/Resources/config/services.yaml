@@ -10,3 +10,7 @@ services:
     Biig\Component\Domain\Model\Instantiator\DoctrineConfig\EntityManagerConfigurator:
         arguments:
             - "@biig_domain.dispatcher"
+
+    Biig\Component\Domain\Model\Instantiator\Instantiator:
+        arguments:
+            - '@biig_domain.dispatcher'
