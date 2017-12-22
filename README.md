@@ -6,6 +6,7 @@ Features
 
 * [Domain event dispatcher](docs/domain_event_dispatcher.md)
 * [Injection of the dispatcher in Doctrine entities](docs/injection_in_doctrine_entities.md)
+* [Symfony serializer integration](docs/symfony_serializer_integration.md)
 
 
 Installation
