@@ -3,6 +3,8 @@
 namespace Biig\Component\Domain\Model\Instantiator\DoctrineConfig;
 
 use Biig\Component\Domain\Event\DomainEventDispatcher;
+use Doctrine\Common\Persistence\Mapping\ClassMetadata as ClassMetadataInterface;
+use Doctrine\Common\Persistence\Mapping\ReflectionService;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Mapping\ClassMetadataFactory as BaseClassMetadataFactory;
 
@@ -32,6 +34,20 @@ final class ClassMetadataFactory extends BaseClassMetadataFactory
     public function setDispatcher(DomainEventDispatcher $dispatcher)
     {
         $this->dispatcher = $dispatcher;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function wakeupReflection(ClassMetadataInterface $class, ReflectionService $reflService)
+    {
+        if ($class instanceof ClassMetadata) {
+            $class->wakeupReflectionWithInstantiator($reflService, new Instantiator($this->dispatcher));
+
+            return;
+        }
+
+        $class->wakeupReflection($reflService);
     }
 
     /**

@@ -7,6 +7,7 @@ require_once __DIR__ . '/../../../fixtures/FakeModel.php';
 use Biig\Component\Domain\Event\DomainEventDispatcher;
 use Biig\Component\Domain\Model\Instantiator\DoctrineConfig\ClassMetadata;
 use Biig\Component\Domain\Model\Instantiator\DoctrineConfig\Instantiator;
+use Doctrine\Common\Persistence\Mapping\ReflectionService;
 use PHPUnit\Framework\TestCase;
 
 class ClassMetadataTest extends TestCase
@@ -31,5 +32,20 @@ class ClassMetadataTest extends TestCase
         $model = $this->metadata->newInstance();
 
         $this->assertInstanceOf(\FakeModel::class, $model);
+    }
+
+    public function testItsWakable()
+    {
+        $metadata = unserialize(serialize($this->metadata));
+
+        $this->assertInstanceOf(ClassMetadata::class, $metadata);
+
+        $refSer = $this->prophesize(ReflectionService::class);
+        $metadata->wakeupReflectionWithInstantiator($refSer->reveal(), new Instantiator(new DomainEventDispatcher()));
+
+        $model = $metadata->newInstance();
+
+        $this->assertInstanceOf(\FakeModel::class, $model);
+        $this->assertTrue($model->hasDispatcher());
     }
 }

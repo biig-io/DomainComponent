@@ -2,6 +2,8 @@
 
 namespace Biig\Component\Domain\Model\Instantiator\DoctrineConfig;
 
+use Biig\Component\Domain\Model\Instantiator\DomainModelInstantiatorInterface;
+use Doctrine\Common\Persistence\Mapping\ReflectionService;
 use Doctrine\Instantiator\InstantiatorInterface;
 use Doctrine\ORM\Mapping\ClassMetadata as BaseClassMetadata;
 use Doctrine\ORM\Mapping\NamingStrategy;
@@ -30,5 +32,15 @@ class ClassMetadata extends BaseClassMetadata
     public function newInstance()
     {
         return $this->instantiator->instantiate(parent::newInstance($this->name));
+    }
+
+    /**
+     * @param ReflectionService                $reflService
+     * @param DomainModelInstantiatorInterface $instantiator
+     */
+    public function wakeupReflectionWithInstantiator($reflService, $instantiator)
+    {
+        $this->instantiator = $instantiator;
+        parent::wakeupReflection($reflService);
     }
 }
