@@ -19,7 +19,7 @@ final class ApiPlatformDomainDenormalizer implements NormalizerInterface, Denorm
      */
     private $decorated;
 
-    public function __construct(AbstractNormalizer $decorated, DomainEventDispatcher $dispatcher)
+    public function __construct(NormalizerInterface $decorated, DomainEventDispatcher $dispatcher)
     {
         $this->decorated = $decorated;
         $this->dispatcher = $dispatcher;
