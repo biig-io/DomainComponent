@@ -13,7 +13,12 @@
     },
     "autoload": {
         "psr-4": {
-            "Biig\\Component\\Domain\\": "./"
+            "Biig\\Component\\Domain\\": "./src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Biig\\Component\\Domain\\Tests\\": "./Tests/"
         }
     }
 }
