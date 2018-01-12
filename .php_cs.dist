@@ -10,7 +10,7 @@ return PhpCsFixer\Config::create()
     ->setRules([
         '@Symfony' => true,
         'align_multiline_comment' => true,
-        'binary_operator_spaces' => ['align_equals' => false, 'align_double_arrow' => true],
+        'binary_operator_spaces' => ['align_equals' => false, 'align_double_arrow' => false],
         'blank_line_before_statement' => ['statements' => ['return', 'throw']],
         'concat_space' => ['spacing' => 'one'],
         'no_extra_consecutive_blank_lines' => ['tokens' => ['break', 'continue', 'extra', 'return', 'throw', 'use', 'parenthesis_brace_block', 'square_brace_block', 'curly_brace_block']],
