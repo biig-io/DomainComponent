@@ -11,4 +11,4 @@ install:
     - composer install --prefer-source
 
 script:
-    - ./bin/phpunit -c phpunit.xml.dist
+    - ./vendor/bin/phpunit -c phpunit.xml.dist
