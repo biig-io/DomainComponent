@@ -25,7 +25,7 @@ Installation
 ------------
 
 ```bash
-composer require biig/domain-component
+composer require biig/domain
 ```
 
 Integration to Symfony
