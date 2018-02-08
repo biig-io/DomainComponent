@@ -28,6 +28,8 @@ class DomainExtension extends Extension implements PrependExtensionInterface
         $container->setParameter('biig_domain_doctrine_domain_event_instantiator', $config['override_doctrine_instantiator']);
 
         $container->registerForAutoconfiguration(DomainRuleInterface::class)->addTag(self::DOMAIN_RULE_TAG);
+
+        $container->setParameter('biig_domain.entity_managers', $config['entity_managers']);
     }
 
     /**

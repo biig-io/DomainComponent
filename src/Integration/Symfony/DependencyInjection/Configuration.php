@@ -17,6 +17,9 @@ class Configuration implements ConfigurationInterface
                 ->booleanNode('override_doctrine_instantiator')
                     ->defaultTrue()
                 ->end()
+                ->arrayNode('entity_managers')
+                    ->scalarPrototype()->end()
+                ->end()
             ->end()
         ;
 
