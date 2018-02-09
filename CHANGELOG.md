@@ -6,6 +6,15 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [1.1.0] - 2018-02-09
+## Added
+
+- Support for many entity manager
+
+## Fixed
+
+- Doctrine bundle filters configuration were broken by our configurator. This is fixed by #2.
+
 ## [1.0.0] - 2018-01-18
 ### Added
 
