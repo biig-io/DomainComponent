@@ -5,6 +5,7 @@ class FakeModel extends \Biig\Component\Domain\Model\DomainModel
     private $id;
     private $foo;
     private $dispatcher;
+    private $something;
 
     public function setDispatcher(\Biig\Component\Domain\Event\DomainEventDispatcher $dispatcher)
     {
@@ -14,11 +15,11 @@ class FakeModel extends \Biig\Component\Domain\Model\DomainModel
 
     public function hasDispatcher()
     {
-        return $this->dispatcher !== null;
+        return null !== $this->dispatcher;
     }
 
     /**
-     * @return integer
+     * @return int
      */
     public function getId()
     {
@@ -34,6 +35,22 @@ class FakeModel extends \Biig\Component\Domain\Model\DomainModel
     }
 
     /**
+     * @return mixed
+     */
+    public function getSomething()
+    {
+        return $this->something;
+    }
+
+    /**
+     * @param mixed $something
+     */
+    public function setSomething($something)
+    {
+        $this->something = $something;
+    }
+
+    /**
      * @param string $foo
      */
     public function setFoo($foo)
@@ -42,7 +59,7 @@ class FakeModel extends \Biig\Component\Domain\Model\DomainModel
     }
 
     /**
-     * Raise a domain event
+     * Raise a domain event.
      */
     public function doAction()
     {

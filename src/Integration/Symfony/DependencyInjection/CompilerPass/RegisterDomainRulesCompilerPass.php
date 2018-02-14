@@ -4,7 +4,7 @@ namespace Biig\Component\Domain\Integration\Symfony\DependencyInjection\Compiler
 
 use Biig\Component\Domain\Exception\InvalidArgumentException;
 use Biig\Component\Domain\Integration\Symfony\DependencyInjection\DomainExtension;
-use Biig\Component\Domain\Rule\DomainRuleInterface;
+use Biig\Component\Domain\Rule\RuleInterface;
 use Symfony\Component\DependencyInjection\Argument\ServiceClosureArgument;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -22,7 +22,7 @@ class RegisterDomainRulesCompilerPass implements CompilerPassInterface
 
             $class = $container->getParameterBag()->resolveValue($def->getClass());
 
-            if (!is_subclass_of($class, DomainRuleInterface::class) || $this->notEmpty($attributes)) {
+            if (!is_subclass_of($class, RuleInterface::class) || $this->notEmpty($attributes)) {
                 foreach ($attributes as $attribute) {
                     $this->addListenerForEventsInDefinition($id, $class, $attribute, $definition);
                 }
@@ -57,7 +57,7 @@ class RegisterDomainRulesCompilerPass implements CompilerPassInterface
 
         if (null === $method || null === $event) {
             throw new InvalidArgumentException(sprintf(
-                'Impossible to register class "%s" as domain listener: the service configuration is wrong.',
+                'Impossible to register class "%s" as domain rule: the service configuration is wrong.',
                 $class
             ));
         }

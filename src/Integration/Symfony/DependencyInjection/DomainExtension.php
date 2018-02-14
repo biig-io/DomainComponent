@@ -3,12 +3,14 @@
 namespace Biig\Component\Domain\Integration\Symfony\DependencyInjection;
 
 use Biig\Component\Domain\Model\Instantiator\DoctrineConfig\ClassMetadataFactory;
-use Biig\Component\Domain\Rule\DomainRuleInterface;
+use Biig\Component\Domain\PostPersistListener\DoctrinePostPersistListener;
+use Biig\Component\Domain\Rule\RuleInterface;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Extension\Extension;
 use Symfony\Component\DependencyInjection\Extension\PrependExtensionInterface;
 use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
+use Symfony\Component\DependencyInjection\Reference;
 
 class DomainExtension extends Extension implements PrependExtensionInterface
 {
@@ -27,9 +29,13 @@ class DomainExtension extends Extension implements PrependExtensionInterface
 
         $container->setParameter('biig_domain_doctrine_domain_event_instantiator', $config['override_doctrine_instantiator']);
 
-        $container->registerForAutoconfiguration(DomainRuleInterface::class)->addTag(self::DOMAIN_RULE_TAG);
+        $container->registerForAutoconfiguration(RuleInterface::class)->addTag(self::DOMAIN_RULE_TAG);
 
         $container->setParameter('biig_domain.entity_managers', $config['entity_managers']);
+
+        if (!empty($config['persist_listeners']['doctrine'])) {
+            $this->registerDoctrinePostPersistListener($config['persist_listeners']['doctrine'], $container);
+        }
     }
 
     /**
@@ -63,7 +69,21 @@ class DomainExtension extends Extension implements PrependExtensionInterface
         return 'biig_domain';
     }
 
-    private function buildClassMetadataFactoryConfig($doctrineConfig)
+    private function registerDoctrinePostPersistListener(array $config, ContainerBuilder $container)
+    {
+        foreach ($config as $connection) {
+            $container
+                ->autowire(
+                    sprintf('biig_domain.post_persist_listener.doctrine_%s', $connection),
+                    DoctrinePostPersistListener::class
+                )
+                ->setArgument(0, new Reference('biig_domain.dispatcher'))
+                ->addTag('doctrine.event_subscriber', array('connection' => 'default'))
+            ;
+        }
+    }
+
+    private function buildClassMetadataFactoryConfig(array $doctrineConfig)
     {
         $doctrineClassMetadataFactoryConfig = [
             'orm' => [
