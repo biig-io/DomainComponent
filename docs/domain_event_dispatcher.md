@@ -12,6 +12,8 @@ To make a new rule (its a listener) you should implements the `DomainRuleInterfa
 
 ### Standalone usage
 
+#### Add a standard rule
+
 ```php
 <?php
 use Biig\Component\Domain\Rule\DomainRuleInterface;
@@ -19,10 +21,31 @@ use Biig\Component\Domain\Event\DomainEvent;
 
 $dispatcher->addRule(new class implements DomainRuleInterface {
     public function execute(DomainEvent $event) {
-     // add some specific behavior
+        // add some specific behavior
     }
+    
     public function on() {
         return 'on.event';
+    }
+});
+```
+
+#### Add a post persist delayed rule
+
+This is useful for post flush processing.
+
+```php
+<?php
+use Biig\Component\Domain\Event\DomainEvent;
+use Biig\Component\Domain\Rule\PostPersistDomainRuleInterface;
+
+$dispatcher->addRule(new class implements PostPersistDomainRuleInterface {
+    public function execute(DomainEvent $event) {
+        // add some specific behavior
+    }
+    
+    public function after() {
+        return 'on.event'; // You have to specify the model
     }
 });
 ```
@@ -57,4 +80,9 @@ biig_domain:
     # the "default" entity manager of your application. You can specify
     # many entity managers if you want.
     entity_managers: []
+    
+    # Post persist events are not activated by default, you need to enable the post persist listeners
+    persist_listeners:
+        # As doctrine supports many connections, you need to enable your connections one by one
+        doctrine: ['default']
 ```
