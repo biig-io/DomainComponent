@@ -2,15 +2,8 @@
 
 namespace Biig\Component\Domain\Rule;
 
-use Biig\Component\Domain\Event\DomainEvent;
-
-interface DomainRuleInterface
+interface DomainRuleInterface extends RuleInterface
 {
-    /**
-     * @param DomainEvent $event
-     */
-    public function execute(DomainEvent $event);
-
     /**
      * Returns an array of event or a string it listen on.
      *
