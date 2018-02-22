@@ -56,7 +56,7 @@ class VerifyDoctrineConfigurationCompilerPassTest extends TestCase
     {
         $container = new ContainerBuilder();
         $container->setParameter('biig_domain_doctrine_domain_event_instantiator', true);
-        $container->setDefinition('dispacher', new Definition(DomainEventDispatcher::class));
+        $container->setDefinition('dispatcher', new Definition(DomainEventDispatcher::class));
 
         $compilerPass = new VerifyDoctrineConfigurationCompilerPass();
         $this->assertNull($compilerPass->process($container));

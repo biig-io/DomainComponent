@@ -28,7 +28,7 @@ class DomainDenormalizerTest extends TestCase
         $this->dispatcher = $this->prophesize(DomainEventDispatcher::class);
     }
 
-    public function testItisAnInstanceOfDenormalize()
+    public function testItIsAnInstanceOfDenormalize()
     {
         $denormalizer = new DomainDenormalizer($this->decorated->reveal(), $this->dispatcher->reveal());
         $this->assertInstanceOf(DenormalizerInterface::class, $denormalizer);

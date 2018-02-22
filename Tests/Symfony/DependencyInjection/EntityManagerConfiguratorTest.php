@@ -11,7 +11,7 @@ use PHPUnit\Framework\TestCase;
 
 class EntityManagerConfiguratorTest extends TestCase
 {
-    public function testItInsertTheDispacher()
+    public function testItInsertsTheDispatcher()
     {
         $entityManager = $this->prophesize(EntityManager::class);
         $dispatcher = $this->prophesize(DomainEventDispatcher::class)->reveal();
@@ -26,6 +26,6 @@ class EntityManagerConfiguratorTest extends TestCase
         $ref = new \ReflectionObject($factory);
         $property = $ref->getProperty('dispatcher');
         $property->setAccessible(true);
-        $this->assertTrue(null !== $property->getValue($factory));
+        $this->assertNotNull($property->getValue($factory));
     }
 }

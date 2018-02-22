@@ -61,9 +61,9 @@ class DomainEventDispatcherTest extends TestCase
         };
 
         // Test initialization
-        $dispacher = new DomainEventDispatcher();
-        $dispacher->addRule($rule);
-        $model->setDispatcher($dispacher);
+        $dispatcher = new DomainEventDispatcher();
+        $dispatcher->addRule($rule);
+        $model->setDispatcher($dispatcher);
 
         // Test
         $model->setFoo('Hello');
