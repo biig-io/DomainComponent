@@ -8,7 +8,7 @@ domain events.
 Make a rule
 -----------
 
-To make a new rule (its a listener) you should implements the `DomainRuleInterface`.
+To make a new rule (its a listener) you should implement the `DomainRuleInterface`.
 
 ### Standalone usage
 

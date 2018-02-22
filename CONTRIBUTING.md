@@ -42,7 +42,7 @@ php-cs-fixer.phar fix --config=.php_cs.dist
 Release policy
 --------------
 
-The release policy of BiiG OSS was originaly defined [here](https://github.com/biig-io/DictionaryBundle/issues/12).
+The release policy of BiiG OSS was originally defined [here](https://github.com/biig-io/DictionaryBundle/issues/12).
 
 Here it is:
 

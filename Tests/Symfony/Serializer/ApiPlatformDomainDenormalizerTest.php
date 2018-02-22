@@ -29,7 +29,7 @@ class ApiPlatformDomainDenormalizerTest extends TestCase
         $this->dispatcher = $this->prophesize(DomainEventDispatcher::class);
     }
 
-    public function testItisAnInstanceOfDenormalize()
+    public function testItIsAnInstanceOfDenormalize()
     {
         $denormalizer = new ApiPlatformDomainDenormalizer($this->decorated->reveal(), $this->dispatcher->reveal());
         $this->assertInstanceOf(ApiPlatformDomainDenormalizer::class, $denormalizer);
