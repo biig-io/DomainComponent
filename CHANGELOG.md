@@ -6,12 +6,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
-## [1.2.0] - 2018-02-XX
+## [1.2.0] - 2018-02-28
 ## Added
 
 - The domain event dispatcher now supports "delayed" rules that will be execute only after the model is persist.
 - Automatic persist detection for doctrine with the new doctrine subscriber `DoctrinePostPersistListener`
 - Integration of the doctrine subscriber in the bundle
+- The component now uses an interface and a trait to avoid to force you to extends from a specific class
 
 ## Changed
 

@@ -3,7 +3,7 @@
 namespace Biig\Component\Domain\PostPersistListener;
 
 use Biig\Component\Domain\Event\DomainEventDispatcher;
-use Biig\Component\Domain\Model\DomainModel;
+use Biig\Component\Domain\Model\ModelInterface;
 use Doctrine\Common\EventSubscriber;
 use Doctrine\ORM\Event\OnFlushEventArgs;
 use Doctrine\ORM\Event\PostFlushEventArgs;
@@ -48,13 +48,13 @@ class DoctrinePostPersistListener extends AbstractBridgeListener implements Even
         $unitOfWork = $entityManager->getUnitOfWork();
 
         foreach ($unitOfWork->getScheduledEntityInsertions() as $entity) {
-            if ($entity instanceof DomainModel) {
+            if ($entity instanceof ModelInterface) {
                 $this->modelsStageForFlush[] = $entity;
             }
         }
 
         foreach ($unitOfWork->getScheduledEntityUpdates() as $entity) {
-            if ($entity instanceof DomainModel) {
+            if ($entity instanceof ModelInterface) {
                 $this->modelsStageForFlush[] = $entity;
             }
         }

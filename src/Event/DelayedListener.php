@@ -3,7 +3,7 @@
 namespace Biig\Component\Domain\Event;
 
 use Biig\Component\Domain\Exception\InvalidDomainEvent;
-use Biig\Component\Domain\Model\DomainModel;
+use Biig\Component\Domain\Model\ModelInterface;
 
 class DelayedListener
 {
@@ -44,7 +44,7 @@ class DelayedListener
     {
         $subject = $event->getSubject();
 
-        if (!is_object($subject) || !$event->getSubject() instanceof DomainModel) {
+        if (!is_object($subject) || !$subject instanceof ModelInterface) {
             throw new InvalidDomainEvent(
                 sprintf(
                     'The event "%s" is invalid because no domain model subject is specified while the event must be dispatched after persist.',
@@ -59,9 +59,9 @@ class DelayedListener
     /**
      * Execute the listener on the events that already occurred.
      *
-     * @param DomainModel $model
+     * @param ModelInterface $model
      */
-    public function process(DomainModel $model)
+    public function process(ModelInterface $model)
     {
         $stack = $this->eventStack;
         foreach ($stack as $key => $event) {
@@ -81,11 +81,11 @@ class DelayedListener
     }
 
     /**
-     * @param DomainModel $model
+     * @param ModelInterface $model
      *
      * @return bool
      */
-    public function shouldOccur(DomainModel $model): bool
+    public function shouldOccur(ModelInterface $model): bool
     {
         if (empty($this->eventStack)) {
             return false;

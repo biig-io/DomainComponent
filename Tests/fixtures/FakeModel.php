@@ -1,17 +1,12 @@
 <?php
 
-class FakeModel extends \Biig\Component\Domain\Model\DomainModel
+class FakeModel implements \Biig\Component\Domain\Model\ModelInterface
 {
+    use \Biig\Component\Domain\Model\DomainModelTrait;
+
     private $id;
     private $foo;
-    private $dispatcher;
     private $something;
-
-    public function setDispatcher(\Biig\Component\Domain\Event\DomainEventDispatcher $dispatcher)
-    {
-        parent::setDispatcher($dispatcher);
-        $this->dispatcher = $dispatcher;
-    }
 
     public function hasDispatcher()
     {
