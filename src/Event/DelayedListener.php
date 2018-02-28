@@ -44,7 +44,7 @@ class DelayedListener
     {
         $subject = $event->getSubject();
 
-        if (!is_object($subject) || !$event->getSubject() instanceof ModelInterface) {
+        if (!is_object($subject) || !$subject instanceof ModelInterface) {
             throw new InvalidDomainEvent(
                 sprintf(
                     'The event "%s" is invalid because no domain model subject is specified while the event must be dispatched after persist.',
