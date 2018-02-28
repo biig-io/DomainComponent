@@ -3,7 +3,7 @@
 namespace Biig\Component\Domain\Integration\Symfony\Serializer;
 
 use Biig\Component\Domain\Event\DomainEventDispatcher;
-use Biig\Component\Domain\Model\DomainModel;
+use Biig\Component\Domain\Model\ModelInterface;
 use Symfony\Component\Serializer\Normalizer\AbstractNormalizer;
 use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
@@ -32,7 +32,7 @@ final class ApiPlatformDomainDenormalizer implements NormalizerInterface, Denorm
     {
         return
             $this->decorated->supportsDenormalization($data, $type, $format)
-            && is_subclass_of($type, DomainModel::class)
+            && is_subclass_of($type, ModelInterface::class)
         ;
     }
 
