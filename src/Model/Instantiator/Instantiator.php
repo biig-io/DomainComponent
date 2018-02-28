@@ -3,7 +3,7 @@
 namespace Biig\Component\Domain\Model\Instantiator;
 
 use Biig\Component\Domain\Event\DomainEventDispatcher;
-use Biig\Component\Domain\Model\DomainModel;
+use Biig\Component\Domain\Model\ModelInterface;
 
 /**
  * Use me to instantiate domain models. So I can inject the domain dispatcher.
@@ -33,7 +33,7 @@ class Instantiator implements DomainModelInstantiatorInterface
 
     protected function injectDispatcher($object)
     {
-        if ($object instanceof DomainModel) {
+        if ($object instanceof ModelInterface) {
             $object->setDispatcher($this->dispatcher);
         }
     }

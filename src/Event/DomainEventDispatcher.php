@@ -3,7 +3,7 @@
 namespace Biig\Component\Domain\Event;
 
 use Biig\Component\Domain\Exception\InvalidArgumentException;
-use Biig\Component\Domain\Model\DomainModel;
+use Biig\Component\Domain\Model\ModelInterface;
 use Biig\Component\Domain\Rule\DomainRuleInterface;
 use Biig\Component\Domain\Rule\PostPersistDomainRuleInterface;
 use Biig\Component\Domain\Rule\RuleInterface;
@@ -100,9 +100,9 @@ class DomainEventDispatcher extends EventDispatcher
     }
 
     /**
-     * @param DomainModel $model
+     * @param ModelInterface $model
      */
-    public function persistModel(DomainModel $model)
+    public function persistModel(ModelInterface $model)
     {
         foreach ($this->delayedListeners as $listener) {
             if ($listener->shouldOccur($model)) {
