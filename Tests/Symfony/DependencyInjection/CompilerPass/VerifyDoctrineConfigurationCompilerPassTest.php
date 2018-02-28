@@ -35,7 +35,7 @@ class VerifyDoctrineConfigurationCompilerPassTest extends TestCase
 
         $container->getDefinitions()->willReturn([
             'doctrine.orm.configuration' => $config,
-            'doctrine.orm.configuration.whatever' => $configChild
+            'doctrine.orm.configuration.whatever' => $configChild,
         ]);
 
         $compilerPass = new VerifyDoctrineConfigurationCompilerPass();
