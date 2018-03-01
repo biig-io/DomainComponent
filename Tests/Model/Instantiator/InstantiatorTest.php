@@ -2,7 +2,7 @@
 
 namespace Biig\Component\Domain\Tests\Model\Instantiator;
 
-require_once (__DIR__ . '/../../fixtures/FakeModel.php');
+require_once __DIR__ . '/../../fixtures/FakeModel.php';
 
 use Biig\Component\Domain\Event\DomainEventDispatcher;
 use Biig\Component\Domain\Model\Instantiator\DomainModelInstantiatorInterface;
@@ -37,6 +37,14 @@ class InstantiatorTest extends TestCase
         $this->assertInstanceOf(FakeSimpleModel::class, $model);
     }
 
+    public function testItInstantiateWithArguments()
+    {
+        $model = $this->instantiator->instantiateWithArguments(DummyObjectWithConstructor::class, 'hello');
+
+        $this->assertInstanceOf(DummyObjectWithConstructor::class, $model);
+        $this->assertEquals('hello', $model->getFoo());
+    }
+
     public function testItShouldBeInstanceOfDomainModelInstantiatorInterface()
     {
         $this->assertInstanceOf(DomainModelInstantiatorInterface::class, $this->instantiator);
@@ -45,5 +53,19 @@ class InstantiatorTest extends TestCase
 
 class FakeSimpleModel
 {
+}
 
+class DummyObjectWithConstructor
+{
+    private $foo;
+
+    public function __construct(string $foo)
+    {
+        $this->foo = $foo;
+    }
+
+    public function getFoo()
+    {
+        return $this->foo;
+    }
 }
