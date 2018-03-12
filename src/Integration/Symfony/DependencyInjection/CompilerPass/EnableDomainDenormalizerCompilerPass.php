@@ -2,7 +2,6 @@
 
 namespace Biig\Component\Domain\Integration\Symfony\DependencyInjection\CompilerPass;
 
-use Biig\Component\Domain\Integration\Symfony\Serializer\ApiPlatformDomainDenormalizer;
 use Biig\Component\Domain\Integration\Symfony\Serializer\DomainDenormalizer;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -12,26 +11,39 @@ class EnableDomainDenormalizerCompilerPass implements CompilerPassInterface
 {
     public function process(ContainerBuilder $container)
     {
-        $bundles = $container->getParameter('kernel.bundles');
-        $alias = 'biig.domain_normalizer';
+        $serviceId = 'biig.domain_denormalizer';
 
-        if (array_key_exists('ApiPlatformBundle', $bundles)) {
-            $container->register(ApiPlatformDomainDenormalizer::class, ApiPlatformDomainDenormalizer::class)
+        if ($container->hasDefinition('api_platform.jsonld.normalizer.item')) {
+            $container->register($serviceId . '.api_platform.jsonld', DomainDenormalizer::class)
                 ->setDecoratedService('api_platform.jsonld.normalizer.item')
-                ->addArgument(new Reference(ApiPlatformDomainDenormalizer::class . '.inner'))
+                ->addArgument(new Reference($serviceId . '.api_platform.jsonld.inner'))
                 ->addArgument(new Reference('biig_domain.dispatcher'))
-                ->addTag('serializer.normalizer')
-                ->setPublic(false)
-            ;
-            $container->setAlias($alias, ApiPlatformDomainDenormalizer::class);
-        } else {
-            $container->register(DomainDenormalizer::class, DomainDenormalizer::class)
-                ->addArgument(new Reference('serializer.normalizer.object'))
-                ->addArgument(new Reference('biig_domain.dispatcher'))
-                ->addTag('serializer.normalizer')
-                ->setPublic(false)
-            ;
-            $container->setAlias($alias, DomainDenormalizer::class);
+                ->setPublic(false);
         }
+
+        if ($container->hasDefinition('api_platform.serializer.normalizer.item')) {
+            $container->register($serviceId . '.api_platform.json', DomainDenormalizer::class)
+                ->setDecoratedService('api_platform.serializer.normalizer.item')
+                ->addArgument(new Reference($serviceId . '.api_platform.json.inner'))
+                ->addArgument(new Reference('biig_domain.dispatcher'))
+                ->setPublic(false)
+            ;
+        }
+
+        if ($container->hasDefinition('api_platform.hal.normalizer.item')) {
+            $container->register($serviceId . '.api_platform.hal', DomainDenormalizer::class)
+                ->setDecoratedService('api_platform.hal.normalizer.item')
+                ->addArgument(new Reference($serviceId . '.api_platform.hal.inner'))
+                ->addArgument(new Reference('biig_domain.dispatcher'))
+                ->setPublic(false)
+            ;
+        }
+
+        $container->register($serviceId, DomainDenormalizer::class)
+            ->setDecoratedService('serializer.normalizer.object')
+            ->addArgument(new Reference($serviceId . '.inner'))
+            ->addArgument(new Reference('biig_domain.dispatcher'))
+            ->setPublic(false)
+        ;
     }
 }

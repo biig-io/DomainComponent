@@ -10,6 +10,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## Added
 
 - New method `instantiateWithArguments` on the instantiator (because most part of the time you want to add arguments)
+- The deserializer is now only one class: simpler and better. It decorates the serializer the right way.
+
+## Changed
+
+- DEPRECATED: as a result of refactoring the deserializer the `ApiPlatformDomainDeserializer` is deprecated
+    to be removed in the 2.x version.
+
 
 ## [1.2.0] - 2018-02-28
 ## Added
