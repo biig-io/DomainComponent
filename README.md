@@ -1,6 +1,8 @@
 Domain component
 ================
 
+[![Build Status](https://travis-ci.org/biig-io/DomainComponent.svg?branch=master)](https://travis-ci.org/biig-io/DomainComponent)
+
 This library is design to help you to build your application with a Domain Design Development approach.
 
 It is well integrated with:
