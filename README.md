@@ -45,7 +45,7 @@ class YourModel extends DomainModel
 ```
 
 ```php
-class DomainRule extends DomainRuleInterface
+class DomainRule implements DomainRuleInterface
 {
     public function on()
     {
