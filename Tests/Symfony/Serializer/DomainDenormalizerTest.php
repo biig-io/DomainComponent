@@ -7,6 +7,7 @@ require_once __DIR__ . '/../../fixtures/FakeModel.php';
 use Biig\Component\Domain\Event\DomainEventDispatcher;
 use Biig\Component\Domain\Integration\Symfony\Serializer\DomainDenormalizer;
 use PHPUnit\Framework\TestCase;
+use Prophecy\Argument;
 use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 
@@ -34,12 +35,21 @@ class DomainDenormalizerTest extends TestCase
         $this->assertInstanceOf(DenormalizerInterface::class, $denormalizer);
     }
 
-    public function testItSupportsDenormalization()
+    public function testItDoesntSupportsDenormalization()
     {
+        $this->decorated->supportsDenormalization(Argument::cetera())->willReturn(false);
         $denormalizer = new DomainDenormalizer($this->decorated->reveal(), $this->dispatcher->reveal());
 
         $this->assertFalse($denormalizer->supportsDenormalization([], \stdClass::class, []));
+        $this->assertFalse($denormalizer->supportsDenormalization([], \FakeModel::class, []));
+    }
 
+    public function testItSupportsDenormalization()
+    {
+        $this->decorated->supportsDenormalization(Argument::cetera())->willReturn(true);
+        $denormalizer = new DomainDenormalizer($this->decorated->reveal(), $this->dispatcher->reveal());
+
+        $this->assertTrue($denormalizer->supportsDenormalization([], \stdClass::class, []));
         $this->assertTrue($denormalizer->supportsDenormalization([], \FakeModel::class, []));
     }
 

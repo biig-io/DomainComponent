@@ -3,9 +3,9 @@
 namespace Biig\Component\Domain\Tests\Symfony\DependencyInjection\CompilerPass;
 
 use Biig\Component\Domain\Integration\Symfony\DependencyInjection\CompilerPass\EnableDomainDenormalizerCompilerPass;
-use Biig\Component\Domain\Integration\Symfony\Serializer\ApiPlatformDomainDenormalizer;
 use Biig\Component\Domain\Integration\Symfony\Serializer\DomainDenormalizer;
 use PHPUnit\Framework\TestCase;
+use Prophecy\Argument;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
@@ -21,35 +21,55 @@ class EnableDomainDenormalizerCompilerPassTest extends TestCase
 
     public function testItAddsDefinitionServiceForApiPlatformDomainDenormalizer()
     {
-        $definition = $this->prophesize(Definition::class);
-        $container  = $this->prophesize(ContainerBuilder::class);
-        $container->getParameter('kernel.bundles')->willReturn(['ApiPlatformBundle'=>true]);
-        $container->register(ApiPlatformDomainDenormalizer::class, ApiPlatformDomainDenormalizer::class)->willReturn($definition)->shouldBeCalled();
-        $definition->setDecoratedService('api_platform.jsonld.normalizer.item')->willReturn($definition)->shouldBeCalled();
-        $definition->addArgument(new Reference(ApiPlatformDomainDenormalizer::class . '.inner'))->willReturn($definition)->shouldBeCalled();
-        $definition->addArgument(new Reference('biig_domain.dispatcher'))->willReturn($definition)->shouldBeCalled();
-        $definition->setPublic(false)->willReturn($definition)->shouldBeCalled();
-
-        $container->register(DomainDenormalizer::class, DomainDenormalizer::class)->shouldNotBeCalled();
-
         $compilerPass = new EnableDomainDenormalizerCompilerPass();
-        $compilerPass->process($container->reveal());
+        $compilerPass->process($this->getContainerMock(true));
     }
 
     public function testItAddsDefinitionServiceForDomainDenormalizer()
     {
-        $definition = $this->prophesize(Definition::class);
-        $container  = $this->prophesize(ContainerBuilder::class);
-        $container->getParameter('kernel.bundles')->willReturn([]);
-        $container->register(ApiPlatformDomainDenormalizer::class, ApiPlatformDomainDenormalizer::class)->willReturn($definition)->shouldNotBeCalled();
-
-        $container->register(DomainDenormalizer::class, DomainDenormalizer::class)->willReturn($definition)->shouldBeCalled();
-        $definition->addArgument(new Reference('serializer.normalizer.object'))->willReturn($definition)->shouldBeCalled();
-        $definition->addArgument(new Reference('biig_domain.dispatcher'))->willReturn($definition)->shouldBeCalled();
-        $definition->addTag('serializer.normalizer', ['priority' => 1000])->willReturn($definition)->shouldBeCalled();
-        $definition->setPublic(false)->willReturn($definition)->shouldBeCalled();
-
         $compilerPass = new EnableDomainDenormalizerCompilerPass();
-        $compilerPass->process($container->reveal());
+        $compilerPass->process($this->getContainerMock());
+    }
+
+    private function getContainerMock($apiPlatform = false)
+    {
+        $container = $this->prophesize(ContainerBuilder::class);
+        $definition = $this->prophesize(Definition::class);
+
+        $container->hasDefinition('api_platform.jsonld.normalizer.item')->willReturn($apiPlatform ? $apiPlatform : []);
+        $container->hasDefinition('api_platform.serializer.normalizer.item')->willReturn($apiPlatform ? $apiPlatform : []);
+        $container->hasDefinition('api_platform.hal.normalizer.item')->willReturn($apiPlatform ? $apiPlatform : []);
+
+        if ($apiPlatform) {
+            //api_platform.jsonld.normalizer.item
+            $definition->setDecoratedService(Argument::type('string'))->willReturn($definition)->shouldBeCalled();
+            $definition->addArgument(Argument::type(Reference::class))->willReturn($definition)->shouldBeCalled();
+            $definition->addArgument(new Reference('biig_domain.dispatcher'))->willReturn($definition)->shouldBeCalled();
+            $definition->setPublic(false)->willReturn($definition)->shouldBeCalled();
+            $container->register('biig.domain_denormalizer.api_platform.jsonld', DomainDenormalizer::class)->willReturn($definition);
+
+            //api_platform.serializer.normalizer.item
+            $definition->setDecoratedService(Argument::type('string'))->willReturn($definition)->shouldBeCalled();
+            $definition->addArgument(Argument::type(Reference::class))->willReturn($definition)->shouldBeCalled();
+            $definition->addArgument(new Reference('biig_domain.dispatcher'))->willReturn($definition)->shouldBeCalled();
+            $definition->setPublic(false)->willReturn($definition)->shouldBeCalled();
+            $container->register('biig.domain_denormalizer.api_platform.json', DomainDenormalizer::class)->willReturn($definition);
+
+            //api_platform.hal.normalizer.item
+            $definition->setDecoratedService(Argument::type('string'))->willReturn($definition)->shouldBeCalled();
+            $definition->addArgument(Argument::type(Reference::class))->willReturn($definition)->shouldBeCalled();
+            $definition->addArgument(new Reference('biig_domain.dispatcher'))->willReturn($definition)->shouldBeCalled();
+            $definition->setPublic(false)->willReturn($definition)->shouldBeCalled();
+            $container->register('biig.domain_denormalizer.api_platform.hal', DomainDenormalizer::class)->willReturn($definition);
+
+        }
+
+        $definition->setDecoratedService(Argument::type('string'))->willReturn($definition)->shouldBeCalled();
+        $definition->addArgument(Argument::type(Reference::class))->willReturn($definition)->shouldBeCalled();
+        $definition->addArgument(new Reference('biig_domain.dispatcher'))->willReturn($definition)->shouldBeCalled();
+        $definition->setPublic(false)->willReturn($definition)->shouldBeCalled();
+        $container->register('biig.domain_denormalizer', DomainDenormalizer::class)->willReturn($definition);
+
+        return $container->reveal();
     }
 }
