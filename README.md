@@ -43,7 +43,7 @@ class YourModel extends DomainModel
     public const CREATION = 'creation';
     public function __construct()
     {
-        $this->dispatch(self::CREATION, new DomainEvent($this);
+        $this->dispatch(self::CREATION, new DomainEvent($this));
     }
 }
 ```
