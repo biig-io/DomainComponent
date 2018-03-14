@@ -1,6 +1,10 @@
 Domain component
 ================
 
+[![Build Status](https://travis-ci.org/biig-io/DomainComponent.svg?branch=master)](https://travis-ci.org/biig-io/DomainComponent)
+[![Latest Stable Version](https://poser.pugx.org/biig/domain/v/stable)](https://packagist.org/packages/biig/domain)
+[![License](https://poser.pugx.org/biig/domain/license)](https://packagist.org/packages/biig/domain)
+
 This library is design to help you to build your application with a Domain Design Development approach.
 
 It is well integrated with:
