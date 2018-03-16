@@ -25,6 +25,7 @@ Domain Events:
 * [Domain event dispatcher](docs/domain_event_dispatcher.md)
 * [Injection of the dispatcher in Doctrine entities](docs/injection_in_doctrine_entities.md)
 * [Symfony serializer integration](docs/symfony_serializer_integration.md)
+* [Learn how do more with our cookbooks](docs/cookbooks.md)
 
 
 Installation
