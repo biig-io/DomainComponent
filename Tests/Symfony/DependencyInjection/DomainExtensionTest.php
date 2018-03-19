@@ -35,4 +35,22 @@ class DomainExtensionTest extends TestCase
 
         $this->assertFalse($container->hasDefinition('biig_domain.post_persist_listener.doctrine_default'));
     }
+
+    public function testItSetEntityManagersConfigAsParameterOfContainer()
+    {
+        $extension = new DomainExtension();
+
+        $config = [[
+            'entity_managers' => [
+                'default',
+                'customManager'
+            ],
+        ]];
+
+        $container = new ContainerBuilder();
+        $extension->load($config, $container);
+
+        $this->assertTrue($container->hasParameter('biig_domain.entity_managers'));
+        $this->assertEquals($container->getParameter('biig_domain.entity_managers'), ['default', 'customManager']);
+    }
 }
