@@ -61,7 +61,7 @@ configuration you still can configure your service by hand:
 ```yaml
 My\Domain\Rule:
     tags:
-        - { name: biig_domain.rule, method: 'execute', event: 'on.event', priority: 0 }
+        - { name: biig_domain.rule, method: 'execute', priority: 0 }
 ```
 
 _Notice: the priority field is optional._
