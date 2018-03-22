@@ -84,3 +84,5 @@ public function registerBundles()
       );
 }
 ```
+
+Learn more about [Symfony Integration](/docs/domain_event_dispatcher.md#symfony-integration)
