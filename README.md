@@ -56,7 +56,7 @@ class DomainRule implements DomainRuleInterface
         return YourModel::CREATION;
     }
     
-    public function execute(DomainEvent)
+    public function execute(DomainEvent $event)
     {
         // Do Something on your model creation
     }
