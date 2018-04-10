@@ -43,7 +43,7 @@ class DomainExtensionTest extends TestCase
         $config = [[
             'entity_managers' => [
                 'default',
-                'customManager'
+                'customManager',
             ],
         ]];
 
