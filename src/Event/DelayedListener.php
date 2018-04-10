@@ -63,11 +63,10 @@ class DelayedListener
      */
     public function process(ModelInterface $model)
     {
-        $stack = $this->eventStack;
-        foreach ($stack as $key => $event) {
+        foreach ($this->eventStack as $key => $event) {
             if (spl_object_hash($event->getSubject()) === spl_object_hash($model)) {
-                \call_user_func($this->listener, $event);
                 unset($this->eventStack[$key]);
+                \call_user_func($this->listener, $event);
             }
         }
     }
