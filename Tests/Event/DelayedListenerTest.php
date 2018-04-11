@@ -9,6 +9,7 @@ use Biig\Component\Domain\Event\DomainEvent;
 use Biig\Component\Domain\Event\DomainEventDispatcher;
 use Biig\Component\Domain\Model\DomainModel;
 use Biig\Component\Domain\Model\Instantiator\DoctrineConfig\ClassMetadataFactory;
+use Biig\Component\Domain\PostPersistListener\DoctrinePostPersistListener;
 use Biig\Component\Domain\Rule\PostPersistDomainRuleInterface;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Tools\Setup;
@@ -16,6 +17,8 @@ use PHPUnit\Framework\TestCase;
 
 class DelayedListenerTest extends TestCase
 {
+    private $dbPath;
+
     public function testICanInstantiateDelayedListener()
     {
         $delayedListener = new DelayedListener('foo', function () {});
@@ -57,23 +60,13 @@ class DelayedListenerTest extends TestCase
 
     public function testItInsertInBddAfterFlushing()
     {
-        $tmpPath = \sys_get_temp_dir() . '/testItInsertInBddAfterFlushing.' . \microtime() . '.sqlite';
-        copy(__DIR__ . '/../fixtures/dbtest/fake_model.db', $tmpPath);
-
-        $config = Setup::createYAMLMetadataConfiguration(array(__DIR__ . '/../fixtures/config'), true);
-        $config->setClassMetadataFactoryName(ClassMetadataFactory::class);
-        $conn = [
-            'driver' => 'pdo_sqlite',
-            'path' => $tmpPath,
-        ];
-        $entityManager = EntityManager::create($conn, $config);
+        $dispatcher = new DomainEventDispatcher();
+        $entityManager = $this->setupDatabase($dispatcher);
 
         $model = new \FakeModel();
-        $model->setFoo('Model 1');
-        $dispatcher = new DomainEventDispatcher();
+        $model->setFoo('Model1');
         $model->setDispatcher($dispatcher);
 
-        $entityManager->getMetadataFactory()->setDispatcher($dispatcher);
         $rule = new class($entityManager) implements PostPersistDomainRuleInterface {
             private $entityManager;
 
@@ -97,16 +90,95 @@ class DelayedListenerTest extends TestCase
         };
         $dispatcher->addRule($rule);
 
+        $model->doAction();
         $entityManager->persist($model);
         $entityManager->flush($model);
-        $model->doAction();
-        $dispatcher->persistModel($model);
 
-        $this->assertEquals(count($entityManager->getRepository(\FakeModel::class)->findAll()), 3);
-        @unlink($tmpPath);
+        // 3 because the database was already containing 1 entry
+        $this->assertEquals(3, count($entityManager->getRepository(\FakeModel::class)->findAll()));
+        $this->dropDatabase();
+    }
+
+    public function testItDoesNotExecuteManyTimesSameEvent()
+    {
+        // Test setup
+        $dispatcher = new DomainEventDispatcher();
+        $entityManager = $this->setupDatabase($dispatcher);
+
+        $model = new \FakeModel();
+        $model->setFoo(0);
+        $model->setDispatcher($dispatcher);
+
+        $rule = new CountAndInsertRule($entityManager);
+        $dispatcher->addRule($rule);
+
+        // Test: the rule should be trigger 2 times
+        $model->doAction();
+        $model->doAction();
+        $entityManager->persist($model);
+        $entityManager->flush($model);
+
+        $this->assertEquals(2, $model->getFoo());
+        $this->dropDatabase();
+    }
+
+    private function setupDatabase(DomainEventDispatcher $dispatcher)
+    {
+        $this->dbPath = \sys_get_temp_dir() . '/testItInsertInBddAfterFlushing.' . \microtime() . '.sqlite';
+        copy(__DIR__ . '/../fixtures/dbtest/fake_model.db', $this->dbPath);
+
+        $config = Setup::createYAMLMetadataConfiguration(array(__DIR__ . '/../fixtures/config'), true);
+        $config->setClassMetadataFactoryName(ClassMetadataFactory::class);
+        $conn = [
+            'driver' => 'pdo_sqlite',
+            'path' => $this->dbPath,
+        ];
+
+        $entityManager = EntityManager::create($conn, $config);
+        $entityManager->getEventManager()->addEventSubscriber(new DoctrinePostPersistListener($dispatcher));
+
+        $entityManager->getMetadataFactory()->setDispatcher($dispatcher);
+
+        return $entityManager;
+    }
+
+    private function dropDatabase()
+    {
+        if (!$this->dbPath) {
+            return;
+        }
+
+        @unlink($this->dbPath);
     }
 }
 
 class FakeDomainModel extends DomainModel
 {
+}
+
+class CountAndInsertRule implements PostPersistDomainRuleInterface
+{
+    private $entityManager;
+
+    public function __construct(EntityManager $entityManager)
+    {
+        $this->entityManager = $entityManager;
+    }
+
+    public function after()
+    {
+        return [\FakeModel::class => 'action'];
+    }
+
+    public function execute(\Biig\Component\Domain\Event\DomainEvent $event)
+    {
+        // Count times of execution
+        $event->getSubject()->setFoo($event->getSubject()->getFoo() + 1);
+
+        // Trigger flush
+        $model = new \FakeModel();
+        $model->setFoo('Something new to insert');
+        $this->entityManager->persist($model);
+        $this->entityManager->flush($model);
+    }
 }
