@@ -6,6 +6,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [1.4.2] - 2018-07-18
+### Fixed 
+
+- Definitive fix for execution order in post persist rules
+
 ## [1.4.1] - 2018-04-10
 ### Fixed 
 
