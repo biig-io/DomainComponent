@@ -14,14 +14,30 @@ class DomainExtensionTest extends TestCase
 
         $config = [[
             'persist_listeners' => [
-                'doctrine' => ['default'],
+                'doctrine' => ['default', 'custom_doctrine'],
             ],
         ]];
 
         $container = new ContainerBuilder();
         $extension->load($config, $container);
 
+        $array = [
+            "biig_domain.post_persist_listener.doctrine_default" => [
+                [
+                    "connection" => "default"
+                ]
+            ],
+            "biig_domain.post_persist_listener.doctrine_custom_doctrine" => [
+                [
+                    "connection" => "custom_doctrine"
+                ]
+            ]
+        ];
+
         $this->assertTrue($container->hasDefinition('biig_domain.post_persist_listener.doctrine_default'));
+        $this->assertTrue($container->hasDefinition('biig_domain.post_persist_listener.doctrine_custom_doctrine'));
+
+        $this->assertEquals($container->findTaggedServiceIds('doctrine.event_subscriber'), $array);
     }
 
     public function testItDoesntRegisterDoctrinePostPersistListenerToContainer()
