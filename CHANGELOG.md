@@ -5,11 +5,14 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+### Fixed
+
+- Fix wrong listener on doctrine connection #37
 
 ## [1.4.2] - 2018-07-18
 ### Fixed 
 
-- Definitive fix for execution order in post persist rules
+- Fix for execution order in post persist rules
 
 ## [1.4.1] - 2018-04-10
 ### Fixed 
