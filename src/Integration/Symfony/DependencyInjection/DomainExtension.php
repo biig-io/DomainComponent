@@ -78,7 +78,7 @@ class DomainExtension extends Extension implements PrependExtensionInterface
                     DoctrinePostPersistListener::class
                 )
                 ->setArgument(0, new Reference('biig_domain.dispatcher'))
-                ->addTag('doctrine.event_subscriber', array('connection' => 'default'))
+                ->addTag('doctrine.event_subscriber', array('connection' => $connection))
             ;
         }
     }
