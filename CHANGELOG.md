@@ -5,6 +5,9 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+### Added
+- Implementation of 2 domain rule interfaces is now working #39
+
 ### Fixed
 
 - Fix wrong listener on doctrine connection #37
