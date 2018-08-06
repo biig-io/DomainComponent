@@ -57,7 +57,7 @@ class RegisterDomainRulesCompilerPass implements CompilerPassInterface
 
         if (null === $method || null === $event) {
             throw new InvalidArgumentException(sprintf(
-                'Impossible to register class "%s" as domain rule: the service configuration is wrong.',
+                'Impossible to register class "%s" as domain rule: the service configuration is wrong. You need to specify either method, event or none. See documentation for more information.',
                 $class
             ));
         }
