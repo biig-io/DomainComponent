@@ -12,10 +12,18 @@ class DomainEvent extends GenericEvent
      */
     private $originalEvent;
 
+    /**
+     * If true, it will be raised after doctrine flush.
+     *
+     * @var boolean
+     */
+    private $delayed;
+
     public function __construct($subject = null, $arguments = [], Event $originalEvent = null)
     {
         parent::__construct($subject, $arguments);
         $this->originalEvent = $originalEvent;
+        $this->delayed = false;
     }
 
     /**
@@ -24,5 +32,18 @@ class DomainEvent extends GenericEvent
     public function getOriginalEvent(): ?Event
     {
         return $this->originalEvent;
+    }
+
+    public function isDelayed()
+    {
+        return $this->delayed;
+    }
+
+    /**
+     * @internal
+     */
+    public function setDelayed()
+    {
+        $this->delayed = true;
     }
 }

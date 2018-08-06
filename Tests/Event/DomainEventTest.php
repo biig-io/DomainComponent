@@ -21,4 +21,13 @@ class DomainEventTest extends TestCase
 
         $this->assertInstanceOf(GenericEvent::class, $event->getOriginalEvent());
     }
+
+    public function testItReturnIfDelayedOrNot()
+    {
+        $event = new DomainEvent();
+
+        $this->assertFalse($event->isDelayed());
+        $event->setDelayed();
+        $this->assertTrue($event->isDelayed());
+    }
 }

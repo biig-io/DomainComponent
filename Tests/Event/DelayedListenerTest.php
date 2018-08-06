@@ -33,7 +33,8 @@ class DelayedListenerTest extends TestCase
         });
 
         $fakeModel = new FakeDomainModel();
-        $delayedListener->occur(new DomainEvent($fakeModel));
+        $event = new DomainEvent($fakeModel);
+        $delayedListener->occur($event);
         $delayedListener->occur(new DomainEvent($fakeModel));
         $this->assertTrue($delayedListener->shouldOccur($fakeModel));
 
@@ -43,6 +44,8 @@ class DelayedListenerTest extends TestCase
 
         $delayedListener->process($fakeModel);
         $this->assertEquals(2, $count);
+
+        $this->assertTrue($event->isDelayed());
     }
 
     /**
