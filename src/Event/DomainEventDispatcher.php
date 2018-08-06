@@ -35,11 +35,11 @@ class DomainEventDispatcher extends EventDispatcher
 
         if ($rule instanceof DomainRuleInterface) {
             $this->addDomainRule($rule);
-
-            return;
         }
 
-        $this->addPostPersistDomainRuleInterface($rule);
+        if ($rule instanceof PostPersistDomainRuleInterface) {
+            $this->addPostPersistDomainRuleInterface($rule);
+        }
     }
 
     /**

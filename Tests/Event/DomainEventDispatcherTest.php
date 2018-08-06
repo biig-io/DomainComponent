@@ -167,4 +167,41 @@ class DomainEventDispatcherTest extends TestCase
         $this->assertEquals('Rule was executed.', $model->getSomething());
         $this->assertNull($model2->getSomething());
     }
+
+    public function testItRaiseRuleInBothCases()
+    {
+        // Objects needed
+        $rule = new class() implements PostPersistDomainRuleInterface, DomainRuleInterface {
+            private $i = 0;
+            public function after()
+            {
+                return [\FakeModel::class => 'action'];
+            }
+
+            public function on()
+            {
+                return 'previous_action';
+            }
+
+            public function execute(DomainEvent $event)
+            {
+                $this->i++;
+            }
+
+            public function i() { return $this->i; }
+        };
+
+        // Test initialization
+        $model = new \FakeModel();
+        $dispatcher = new DomainEventDispatcher();
+        $dispatcher->addRule($rule);
+        $model->setDispatcher($dispatcher);
+
+        // Actual test
+        $model->doAction();
+        $this->assertEquals(1, $rule->i());
+
+        $dispatcher->persistModel($model);
+        $this->assertEquals(2, $rule->i());
+    }
 }
