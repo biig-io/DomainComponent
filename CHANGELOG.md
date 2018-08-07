@@ -5,7 +5,10 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+
+## [1.4.3] - 2018-08-07
 ### Added
+
 - Implementation of 2 domain rule interfaces is now working #39
 - Add information about event timing in itself #40
 
