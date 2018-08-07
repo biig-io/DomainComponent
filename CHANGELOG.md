@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## [Unreleased]
 ### Added
 - Implementation of 2 domain rule interfaces is now working #39
+- Add information about event timing in itself #40
 
 ### Fixed
 

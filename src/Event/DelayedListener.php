@@ -42,6 +42,7 @@ class DelayedListener
      */
     public function occur(DomainEvent $event)
     {
+        $event->setDelayed();
         $subject = $event->getSubject();
 
         if (!is_object($subject) || !$subject instanceof ModelInterface) {
