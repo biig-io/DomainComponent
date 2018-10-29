@@ -27,6 +27,15 @@ Domain Events:
 * [Symfony serializer integration](docs/symfony_serializer_integration.md)
 * [Learn how do more with our cookbooks](docs/cookbooks.md)
 
+Drawbacks
+---------
+
+This library is build to allow you to use Doctrine models as Domain model. This has some cost:
+you can't instantiate domain model by hand anymore. This means that you need a factory for any of
+the usage of your domain model.
+
+This component provides the implementation for Symfony serializer and Doctrine. For your own
+needs you should use the class (service if you use the bundle) `Biig\Component\Domain\Model\Instantiator\Instantiator`.
 
 Installation
 ------------
