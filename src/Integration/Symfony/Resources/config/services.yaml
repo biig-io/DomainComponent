@@ -2,6 +2,8 @@ services:
     biig_domain.dispatcher:
         class: Biig\Component\Domain\Event\DomainEventDispatcher
 
+    Biig\Component\Domain\Event\DomainEventDispatcher: '@biig_domain.dispatcher'
+
     Biig\Component\Domain\Model\Instantiator\Instantiator:
         arguments:
             - "@biig_domain.dispatcher"
