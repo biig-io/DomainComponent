@@ -3,6 +3,7 @@
     "type": "library",
     "license": "MIT",
     "require": {
+        "php": ">=7.1",
         "symfony/event-dispatcher": "~3.3|~4.0"
     },
     "authors": [
