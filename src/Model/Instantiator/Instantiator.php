@@ -39,6 +39,14 @@ class Instantiator implements DomainModelInstantiatorInterface
         return $object;
     }
 
+    public function instantiateViaStaticFactory(string $className, string $factoryMethodName, ...$args)
+    {
+        $object = $className::$factoryMethodName(...$args);
+        $this->injectDispatcher($object);
+
+        return $object;
+    }
+
     protected function injectDispatcher($object)
     {
         if ($object instanceof ModelInterface) {
