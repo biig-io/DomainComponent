@@ -3,6 +3,7 @@
     "type": "library",
     "license": "MIT",
     "require": {
+        "php": ">=7.1",
         "symfony/event-dispatcher": "~3.3|~4.0"
     },
     "authors": [
@@ -15,7 +16,7 @@
         "phpunit/phpunit": "^6.4",
         "doctrine/orm": "^2.5",
         "symfony/symfony": "~3.3|~4.0",
-        "friendsofphp/php-cs-fixer": "^2.8",
+        "friendsofphp/php-cs-fixer": "^2.14",
         "doctrine/doctrine-bundle": "^1.8"
     },
     "autoload": {
