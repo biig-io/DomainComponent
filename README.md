@@ -84,15 +84,12 @@ Use the bundle :
 
 ```php
 <?php
-// In your Kernel class
-public function registerBundles()
-{
-      return array(
-          // ...
-          new \Biig\Component\Domain\Integration\Symfony\DomainBundle(),
-          // ...
-      );
-}
+// config/bundles.php
+
+return [
+    // ...
+    Biig\Component\Domain\Integration\Symfony\DomainBundle::class => ['all' => true],
+];
 ```
 
 Learn more about [Symfony Integration](/docs/domain_event_dispatcher.md#symfony-integration)
