@@ -24,6 +24,11 @@ class DomainExtension extends Extension implements PrependExtensionInterface
         );
         $loader->load('services.yaml');
 
+        $env = $container->getParameter('kernel.environment');
+        if ('dev' === $env) {
+            $loader->load('services_dev.yaml');
+        }
+
         $configuration = new Configuration();
         $config = $this->processConfiguration($configuration, $configs);
 

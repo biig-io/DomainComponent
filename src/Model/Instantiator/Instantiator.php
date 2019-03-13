@@ -2,7 +2,7 @@
 
 namespace Biig\Component\Domain\Model\Instantiator;
 
-use Biig\Component\Domain\Event\DomainEventDispatcher;
+use Biig\Component\Domain\Event\DomainEventDispatcherInterface;
 use Biig\Component\Domain\Model\ModelInterface;
 
 /**
@@ -14,11 +14,11 @@ use Biig\Component\Domain\Model\ModelInterface;
 class Instantiator implements DomainModelInstantiatorInterface
 {
     /**
-     * @var DomainEventDispatcher
+     * @var DomainEventDispatcherInterface
      */
     private $dispatcher;
 
-    public function __construct(DomainEventDispatcher $dispatcher)
+    public function __construct(DomainEventDispatcherInterface $dispatcher)
     {
         $this->dispatcher = $dispatcher;
     }

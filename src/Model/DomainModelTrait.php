@@ -3,12 +3,12 @@
 namespace Biig\Component\Domain\Model;
 
 use Biig\Component\Domain\Event\DomainEvent;
-use Biig\Component\Domain\Event\DomainEventDispatcher;
+use Biig\Component\Domain\Event\DomainEventDispatcherInterface;
 
 trait DomainModelTrait
 {
     /**
-     * @var DomainEventDispatcher
+     * @var DomainEventDispatcherInterface
      */
     private $dispatcher;
 
@@ -21,7 +21,7 @@ trait DomainModelTrait
      */
     private $eventStack = [];
 
-    public function setDispatcher(DomainEventDispatcher $dispatcher)
+    public function setDispatcher(DomainEventDispatcherInterface $dispatcher)
     {
         $this->dispatcher = $dispatcher;
 

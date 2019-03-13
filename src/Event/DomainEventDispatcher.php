@@ -10,7 +10,7 @@ use Biig\Component\Domain\Rule\RuleInterface;
 use Symfony\Component\EventDispatcher\Event;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 
-class DomainEventDispatcher extends EventDispatcher
+class DomainEventDispatcher extends EventDispatcher implements DomainEventDispatcherInterface
 {
     /**
      * @var DelayedListener[]

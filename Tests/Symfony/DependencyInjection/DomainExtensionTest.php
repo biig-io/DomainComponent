@@ -5,6 +5,7 @@ namespace Biig\Component\Domain\Tests\Symfony\DependencyInjection;
 use Biig\Component\Domain\Integration\Symfony\DependencyInjection\DomainExtension;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBag;
 
 class DomainExtensionTest extends TestCase
 {
@@ -18,7 +19,9 @@ class DomainExtensionTest extends TestCase
             ],
         ]];
 
-        $container = new ContainerBuilder();
+        $container = new ContainerBuilder(new ParameterBag([
+            'kernel.environment' => 'prod'
+        ]));
         $extension->load($config, $container);
 
         $array = [
@@ -46,7 +49,9 @@ class DomainExtensionTest extends TestCase
 
         $config = [[]];
 
-        $container = new ContainerBuilder();
+        $container = new ContainerBuilder(new ParameterBag([
+            'kernel.environment' => 'prod'
+        ]));
         $extension->load($config, $container);
 
         $this->assertFalse($container->hasDefinition('biig_domain.post_persist_listener.doctrine_default'));
@@ -63,7 +68,9 @@ class DomainExtensionTest extends TestCase
             ],
         ]];
 
-        $container = new ContainerBuilder();
+        $container = new ContainerBuilder(new ParameterBag([
+            'kernel.environment' => 'prod'
+        ]));
         $extension->load($config, $container);
 
         $this->assertTrue($container->hasParameter('biig_domain.entity_managers'));
