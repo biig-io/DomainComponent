@@ -1,0 +1,32 @@
+{% extends '@WebProfiler/Profiler/layout.html.twig' %}
+
+{% block toolbar %}
+    {% set icon %}
+        {# this is the content displayed as a panel in the toolbar #}
+        {#TODO Add logo or whatever to display log panel ? #}
+        {#<svg xmlns="http://www.w3.org/2000/svg"> ... </svg>#}
+        <span class="sf-toolbar-value">Domain Events</span>
+    {% endset %}
+
+    {% set text %}
+        {# this is the content displayed when hovering the mouse over
+           the toolbar panel #}
+        {#<div class="sf-toolbar-info-piece">#}
+            {#<b>Method</b>#}
+            {#<span>{{ collector.method }}</span>#}
+        {#</div>#}
+
+        {#<div class="sf-toolbar-info-piece">#}
+            {#<b>Accepted content type</b>#}
+            {#<span>{{ collector.acceptableContentTypes|join(', ') }}</span>#}
+        {#</div>#}
+
+        {% for event in getEventsPretty %}
+            <span>Event launched: {{ event }}</span>
+        {% endfor %}
+    {% endset %}
+
+    {# the 'link' value set to 'false' means that this panel doesn't
+       show a section in the web profiler #}
+    {{ include('@WebProfiler/Profiler/toolbar_item.html.twig', { link: false }) }}
+{% endblock %}
