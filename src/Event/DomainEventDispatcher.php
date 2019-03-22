@@ -110,4 +110,12 @@ class DomainEventDispatcher extends EventDispatcher implements DomainEventDispat
             }
         }
     }
+
+    /**
+     * @return DelayedListener[]
+     */
+    public function getDelayedListeners(): array
+    {
+        return $this->delayedListeners;
+    }
 }

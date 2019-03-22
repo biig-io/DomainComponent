@@ -22,9 +22,16 @@ class EventsDataCollector extends DataCollector
      */
     public function collect(Request $request, Response $response, \Exception $exception = null)
     {
+        $data = [];
+
+        foreach ($this->traceableDomainDispatcher->getEventsFired() as $firedEvent) {
+            $listenersCalled = [];
+            $listeners = $this->traceableDomainDispatcher->getListeners($firedEvent);
+            dump($listeners);
+        }
+
         $this->data = $this->traceableDomainDispatcher->getCalledListeners();
     }
-
 
 
     /**
@@ -47,5 +54,10 @@ class EventsDataCollector extends DataCollector
         return array_map(function($data) {
             return $data['pretty'];
         }, $this->data);
+    }
+
+    private function getDecorated()
+    {
+        return $this->traceableDomainDispatcher->getDecoratedDispatcher();
     }
 }

@@ -19,10 +19,18 @@ class DomainEventDispatcherTracer extends TraceableEventDispatcher implements Do
      */
     private $decorated;
 
+    private $eventsFired = [];
+
     public function __construct(DomainEventDispatcher $domainEventDispatcher)
     {
         $this->decorated = $domainEventDispatcher;
         parent::__construct($domainEventDispatcher, new Stopwatch(), new NullLogger());
+    }
+
+    public function dispatch($eventName, Event $event = null)
+    {
+        $this->eventsFired[] = $eventName;
+        return parent::dispatch($eventName, $event);
     }
 
     /**
@@ -57,5 +65,15 @@ class DomainEventDispatcherTracer extends TraceableEventDispatcher implements Do
     public function persistModel(ModelInterface $model)
     {
         $this->decorated->persistModel($model);
+    }
+
+    public function getEventsFired()
+    {
+        return $this->eventsFired;
+    }
+
+    public function getDecoratedDispatcher()
+    {
+        return $this->decorated;
     }
 }
