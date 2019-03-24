@@ -5,6 +5,7 @@ namespace Biig\Component\Domain\Tests\Symfony\DependencyInjection;
 use Biig\Component\Domain\Integration\Symfony\DependencyInjection\DomainExtension;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBag;
 
 class DomainExtensionTest extends TestCase
@@ -75,5 +76,18 @@ class DomainExtensionTest extends TestCase
 
         $this->assertTrue($container->hasParameter('biig_domain.entity_managers'));
         $this->assertEquals($container->getParameter('biig_domain.entity_managers'), ['default', 'customManager']);
+    }
+
+    public function testItRegisterEventDispatcherTracerInDev()
+    {
+        $extension = new DomainExtension();
+
+        $container = new ContainerBuilder(new ParameterBag([
+            'kernel.environment' => 'dev'
+        ]));
+        $extension->load([], $container);
+
+        $this->assertTrue($container->hasDefinition('Biig\Component\Domain\Event\DomainEventDispatcherTracer'));
+        $this->assertTrue($container->hasDefinition('Biig\Component\Domain\Integration\Symfony\Twig\Profiler\EventsDataCollector'));
     }
 }

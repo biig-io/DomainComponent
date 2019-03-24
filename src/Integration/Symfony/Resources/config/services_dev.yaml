@@ -6,10 +6,10 @@ services:
     decorates: Biig\Component\Domain\Event\DomainEventDispatcher
 
   Biig\Component\Domain\Integration\Symfony\Twig\Profiler\EventsDataCollector:
+    public: false
     arguments:
       - '@Biig\Component\Domain\Event\DomainEventDispatcherTracer'
     tags:
       - name:     data_collector
-        # TODO Need to register DomainBundle to twig namespace ?
-        template: '@DomainBundle/data_collector/events_dispatched.html.twig'
+        template: '@Domain/data_collector/events_dispatched.html.twig'
         id:       'biig.domain_events'

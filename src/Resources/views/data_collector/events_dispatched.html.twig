@@ -21,7 +21,7 @@
             {#<span>{{ collector.acceptableContentTypes|join(', ') }}</span>#}
         {#</div>#}
 
-        {% for event in getEventsPretty %}
+        {% for event in collector.getEventsPretty() %}
             <span>Event launched: {{ event }}</span>
         {% endfor %}
     {% endset %}

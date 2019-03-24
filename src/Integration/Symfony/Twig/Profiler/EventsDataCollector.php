@@ -28,9 +28,29 @@ class EventsDataCollector extends DataCollector
             $listenersCalled = [];
             $listeners = $this->traceableDomainDispatcher->getListeners($firedEvent);
             dump($listeners);
-        }
+            dump($firedEvent);
+            $eventsTracking = [
+                'listenersCalled'    => [],
+                'listenersNotCalled' => [],
+            ];
 
-        $this->data = $this->traceableDomainDispatcher->getCalledListeners();
+            foreach ($this->traceableDomainDispatcher->getCalledListeners() as $calledListener) {
+                dump($calledListener);
+                if ($firedEvent === $calledListener['event']) {
+                    $eventsTracking['listenersCalled'][] = $calledListener;
+                }
+            }
+
+            foreach ($this->traceableDomainDispatcher->getNotCalledListeners() as $notCalledListener) {
+                dump($notCalledListener);
+                if ($firedEvent === $notCalledListener['event']) {
+                    $eventsTracking['listenersNotCalled'][] = $notCalledListener;
+                }
+            }
+
+
+            $data[$firedEvent] = $eventsTracking;
+        }
     }
 
 
