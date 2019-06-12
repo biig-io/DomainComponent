@@ -7,7 +7,7 @@ use Biig\Component\Domain\Event\DomainEvent;
 /**
  * Interface RuleInterface.
  *
- * You should never instanciate only this interface.
+ * You should never implements only this interface.
  * Use `DomainRuleInterface` or `DomainDelayedRuleInterface`.
  */
 interface RuleInterface
