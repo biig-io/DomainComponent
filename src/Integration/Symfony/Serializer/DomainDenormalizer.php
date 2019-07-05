@@ -2,7 +2,7 @@
 
 namespace Biig\Component\Domain\Integration\Symfony\Serializer;
 
-use Biig\Component\Domain\Event\DomainEventDispatcher;
+use Biig\Component\Domain\Event\DomainEventDispatcherInterface;
 use Biig\Component\Domain\Model\ModelInterface;
 use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
@@ -21,11 +21,11 @@ final class DomainDenormalizer implements NormalizerInterface, DenormalizerInter
     private $decorated;
 
     /**
-     * @var DomainEventDispatcher
+     * @var DomainEventDispatcherInterface
      */
     private $dispatcher;
 
-    public function __construct(NormalizerInterface $decorated, DomainEventDispatcher $dispatcher)
+    public function __construct(NormalizerInterface $decorated, DomainEventDispatcherInterface $dispatcher)
     {
         $this->decorated = $decorated;
         $this->dispatcher = $dispatcher;
