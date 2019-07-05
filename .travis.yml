@@ -1,15 +1,36 @@
 language: php
+
 php:
     - 7.1
     - 7.2
     - 7.3
 
+cache:
+    directories:
+        - $HOME/.composer/cache
+
+matrix:
+    include:
+        - php: 7.1
+          env: 'COMPOSER_FLAGS="--prefer-lowest --prefer-stable"'
+        - php: 7.1
+          env: 'COMPOSER_FLAGS="--prefer-stable"'
+        - php: 7.2
+          env: 'COMPOSER_FLAGS="--prefer-lowest --prefer-stable"'
+        - php: 7.2
+          env: 'COMPOSER_FLAGS="--prefer-stable"'
+        - php: 7.3
+          env: 'COMPOSER_FLAGS="--prefer-lowest --prefer-stable"'
+        - php: 7.3
+          env: 'COMPOSER_FLAGS="--prefer-stable"'
+
 branches:
     only:
         - master
+        - v1;
 
 install:
-    - composer install --prefer-source
+    - composer update --prefer-source $COMPOSER_FLAGS
 
 script:
     - ./vendor/bin/phpunit -c phpunit.xml.dist

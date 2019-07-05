@@ -5,6 +5,7 @@ namespace Biig\Component\Domain\Tests\PostPersistListener;
 require_once __DIR__ . '/../fixtures/FakeModel.php';
 
 use Biig\Component\Domain\Event\DomainEventDispatcher;
+use Biig\Component\Domain\Event\DomainEventDispatcherInterface;
 use Biig\Component\Domain\PostPersistListener\DoctrinePostPersistListener;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Event\OnFlushEventArgs;
@@ -18,7 +19,7 @@ class DoctrinePostPersistListenerTest extends TestCase
     {
         $model = new \FakeModel();
 
-        $dispatcher = $this->prophesize(DomainEventDispatcher::class);
+        $dispatcher = $this->prophesize(DomainEventDispatcherInterface::class);
         $dispatcher->persistModel($model)->shouldBeCalled();
 
         $unitOfWork = $this->prophesize(UnitOfWork::class);

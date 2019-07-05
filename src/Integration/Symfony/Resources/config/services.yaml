@@ -3,6 +3,7 @@ services:
         class: Biig\Component\Domain\Event\DomainEventDispatcher
 
     Biig\Component\Domain\Event\DomainEventDispatcher: '@biig_domain.dispatcher'
+    Biig\Component\Domain\Event\DomainEventDispatcherInterface: '@Biig\Component\Domain\Event\DomainEventDispatcher'
 
     Biig\Component\Domain\Model\Instantiator\Instantiator:
         arguments:
@@ -11,3 +12,4 @@ services:
     biig_domain.instantiator.default:
         alias: Biig\Component\Domain\Model\Instantiator\Instantiator
         public: true
+

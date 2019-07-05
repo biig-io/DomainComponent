@@ -2,9 +2,9 @@
 
 namespace Biig\Component\Domain\Model;
 
-use Biig\Component\Domain\Event\DomainEventDispatcher;
+use Biig\Component\Domain\Event\DomainEventDispatcherInterface;
 
 interface ModelInterface
 {
-    public function setDispatcher(DomainEventDispatcher $dispatcher);
+    public function setDispatcher(DomainEventDispatcherInterface $dispatcher);
 }

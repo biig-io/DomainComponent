@@ -2,7 +2,8 @@
 
 namespace Biig\Component\Domain\PostPersistListener;
 
-use Biig\Component\Domain\Event\DomainEventDispatcher;
+use Biig\Component\Domain\Event\DomainEventDispatcherInterface;
+use Biig\Component\Domain\Model\DomainModel;
 use Biig\Component\Domain\Model\ModelInterface;
 use Doctrine\Common\EventSubscriber;
 use Doctrine\ORM\Event\OnFlushEventArgs;
@@ -21,9 +22,9 @@ class DoctrinePostPersistListener extends AbstractBridgeListener implements Even
     private $modelsStageForFlush;
 
     /**
-     * @param DomainEventDispatcher $dispatcher
+     * @param DomainEventDispatcherInterface $dispatcher
      */
-    public function __construct(DomainEventDispatcher $dispatcher)
+    public function __construct(DomainEventDispatcherInterface $dispatcher)
     {
         parent::__construct($dispatcher);
         $this->modelsStageForFlush = [];

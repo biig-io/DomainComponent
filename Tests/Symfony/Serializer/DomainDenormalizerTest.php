@@ -26,19 +26,19 @@ class DomainDenormalizerTest extends TestCase
     public function setUp()
     {
         $this->decorated = $this->prophesize(ObjectNormalizer::class);
-        $this->dispatcher = $this->prophesize(DomainEventDispatcher::class);
+        $this->dispatcher = new DomainEventDispatcher();
     }
 
     public function testItIsAnInstanceOfDenormalize()
     {
-        $denormalizer = new DomainDenormalizer($this->decorated->reveal(), $this->dispatcher->reveal());
+        $denormalizer = new DomainDenormalizer($this->decorated->reveal(), $this->dispatcher);
         $this->assertInstanceOf(DenormalizerInterface::class, $denormalizer);
     }
 
     public function testItDoesntSupportsDenormalization()
     {
         $this->decorated->supportsDenormalization(Argument::cetera())->willReturn(false);
-        $denormalizer = new DomainDenormalizer($this->decorated->reveal(), $this->dispatcher->reveal());
+        $denormalizer = new DomainDenormalizer($this->decorated->reveal(), $this->dispatcher);
 
         $this->assertFalse($denormalizer->supportsDenormalization([], \stdClass::class, []));
         $this->assertFalse($denormalizer->supportsDenormalization([], \FakeModel::class, []));
@@ -47,7 +47,7 @@ class DomainDenormalizerTest extends TestCase
     public function testItSupportsDenormalization()
     {
         $this->decorated->supportsDenormalization(Argument::cetera())->willReturn(true);
-        $denormalizer = new DomainDenormalizer($this->decorated->reveal(), $this->dispatcher->reveal());
+        $denormalizer = new DomainDenormalizer($this->decorated->reveal(), $this->dispatcher);
 
         $this->assertTrue($denormalizer->supportsDenormalization([], \stdClass::class, []));
         $this->assertTrue($denormalizer->supportsDenormalization([], \FakeModel::class, []));
@@ -58,9 +58,9 @@ class DomainDenormalizerTest extends TestCase
         $fake = $this->prophesize(\FakeModel::class);
 
         $this->decorated->denormalize([], \FakeModel::class, null, [])->willReturn($fake)->shouldBeCalled();
-        $fake->setDispatcher($this->dispatcher->reveal())->shouldBeCalled();
+        $fake->setDispatcher($this->dispatcher)->shouldBeCalled();
 
-        $denormalizer = new DomainDenormalizer($this->decorated->reveal(), $this->dispatcher->reveal());
+        $denormalizer = new DomainDenormalizer($this->decorated->reveal(), $this->dispatcher);
         $denormalizer->denormalize([], \FakeModel::class, null, []);
     }
 }

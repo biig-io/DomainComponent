@@ -7,10 +7,10 @@ use Biig\Component\Domain\Model\ModelInterface;
 use Biig\Component\Domain\Rule\DomainRuleInterface;
 use Biig\Component\Domain\Rule\PostPersistDomainRuleInterface;
 use Biig\Component\Domain\Rule\RuleInterface;
-use Symfony\Component\EventDispatcher\Event;
+use Symfony\Contracts\EventDispatcher\Event;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 
-class DomainEventDispatcher extends EventDispatcher
+final class DomainEventDispatcher extends EventDispatcher implements DomainEventDispatcherInterface
 {
     /**
      * @var DelayedListener[]
@@ -19,6 +19,7 @@ class DomainEventDispatcher extends EventDispatcher
 
     public function __construct()
     {
+        parent::__construct();
         $this->delayedListeners = [];
     }
 
@@ -79,14 +80,14 @@ class DomainEventDispatcher extends EventDispatcher
     }
 
     /**
-     * @param string     $eventName
      * @param Event|null $event
      *
      * @return Event
      */
-    public function dispatch($eventName, Event $event = null)
+    public function dispatch($event/*, string $eventName = null*/)
     {
-        $event = parent::dispatch($eventName, $event);
+        $eventName = 1 < \func_num_args() ? \func_get_arg(1) : null;
+        $event = parent::dispatch($event, $eventName);
 
         if ($event instanceof DomainEvent) {
             foreach ($this->delayedListeners as $listener) {
@@ -104,6 +105,7 @@ class DomainEventDispatcher extends EventDispatcher
      */
     public function persistModel(ModelInterface $model)
     {
+
         foreach ($this->delayedListeners as $listener) {
             if ($listener->shouldOccur($model)) {
                 $listener->process($model);

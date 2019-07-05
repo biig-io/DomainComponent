@@ -5,6 +5,7 @@ namespace Biig\Component\Domain\Tests\Model\Instantiator\DoctrineConfig;
 require_once __DIR__ . '/../../../fixtures/FakeModel.php';
 
 use Biig\Component\Domain\Event\DomainEventDispatcher;
+use Biig\Component\Domain\Event\DomainEventDispatcherInterface;
 use Biig\Component\Domain\Model\Instantiator\DoctrineConfig\ClassMetadata;
 use Biig\Component\Domain\Model\Instantiator\DoctrineConfig\ClassMetadataFactory;
 use Doctrine\ORM\EntityManager;
@@ -46,7 +47,7 @@ class ClassMetadataFactoryTest extends TestCase
         $config = Setup::createYAMLMetadataConfiguration(array(__DIR__ . '/../../../fixtures/config'), true);
         $config->setClassMetadataFactoryName(ClassMetadataFactory::class);
 
-        $dispatcher = $this->prophesize(DomainEventDispatcher::class);
+        $dispatcher = $this->prophesize(DomainEventDispatcherInterface::class);
         $dispatcher->dispatch(Argument::cetera())->shouldBeCalled();
 
         $conn = [

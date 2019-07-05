@@ -58,7 +58,7 @@ class FakeModel implements \Biig\Component\Domain\Model\ModelInterface
      */
     public function doAction()
     {
-        $this->dispatch('previous_action',  new \Biig\Component\Domain\Event\DomainEvent($this));
-        $this->dispatch('action', new \Biig\Component\Domain\Event\DomainEvent($this));
+        $this->dispatch(new \Biig\Component\Domain\Event\DomainEvent($this), 'previous_action');
+        $this->dispatch(new \Biig\Component\Domain\Event\DomainEvent($this), 'action');
     }
 }

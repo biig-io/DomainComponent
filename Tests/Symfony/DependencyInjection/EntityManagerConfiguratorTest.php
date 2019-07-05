@@ -14,13 +14,12 @@ class EntityManagerConfiguratorTest extends TestCase
     public function testItInsertsTheDispatcher()
     {
         $entityManager = $this->prophesize(EntityManager::class);
-        $dispatcher = $this->prophesize(DomainEventDispatcher::class)->reveal();
         $originalConfigurator = $this->prophesize(ManagerConfigurator::class)->reveal();
         $factory = new ClassMetadataFactory();
 
         $entityManager->getMetadataFactory()->willReturn($factory);
 
-        $configurator = new EntityManagerConfigurator($originalConfigurator, $dispatcher);
+        $configurator = new EntityManagerConfigurator($originalConfigurator, new DomainEventDispatcher());
         $configurator->configure($entityManager->reveal());
 
         $ref = new \ReflectionObject($factory);
