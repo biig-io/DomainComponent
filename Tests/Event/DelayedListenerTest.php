@@ -83,7 +83,7 @@ class DelayedListenerTest extends TestCase
                 return [\FakeModel::class => 'action'];
             }
 
-            public function execute(\Biig\Component\Domain\Event\DomainEvent $event)
+            public function execute(DomainEvent $event)
             {
                 $model = new \FakeModel();
                 $model->setFoo('RulePostPersist');
@@ -173,7 +173,7 @@ class CountAndInsertRule implements PostPersistDomainRuleInterface
         return [\FakeModel::class => 'action'];
     }
 
-    public function execute(\Biig\Component\Domain\Event\DomainEvent $event)
+    public function execute(DomainEvent $event)
     {
         // Count times of execution
         $event->getSubject()->setFoo($event->getSubject()->getFoo() + 1);

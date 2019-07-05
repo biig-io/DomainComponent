@@ -41,7 +41,7 @@ class DomainEventDispatcherTest extends TestCase
             public function setFoo($foo)
             {
                 $this->foo = $foo;
-                $this->dispatch('foo.changed', new DomainEvent($this));
+                $this->dispatch(new DomainEvent($this), 'foo.changed');
             }
 
             public function getFoo()
@@ -94,13 +94,13 @@ class DomainEventDispatcherTest extends TestCase
             public function setFoo($foo)
             {
                 $this->foo = $foo;
-                $this->dispatch('foo.changed', new DomainEvent($this));
+                $this->dispatch(new DomainEvent($this), 'foo.changed');
             }
 
             public function setBar($bar)
             {
                 $this->bar = $bar;
-                $this->dispatch('bar.changed', new DomainEvent($this));
+                $this->dispatch(new DomainEvent($this), 'bar.changed');
             }
 
             public function getFoo()

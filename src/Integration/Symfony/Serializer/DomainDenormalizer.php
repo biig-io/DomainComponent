@@ -12,10 +12,8 @@ use Symfony\Component\Serializer\SerializerInterface;
 
 /**
  * Class DomainDenormalizer.
- *
- * @final in v2.x
  */
-/* final */ class DomainDenormalizer implements NormalizerInterface, DenormalizerInterface, SerializerAwareInterface
+final class DomainDenormalizer implements NormalizerInterface, DenormalizerInterface, SerializerAwareInterface
 {
     /**
      * @var ObjectNormalizer

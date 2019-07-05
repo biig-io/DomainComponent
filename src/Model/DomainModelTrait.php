@@ -3,12 +3,12 @@
 namespace Biig\Component\Domain\Model;
 
 use Biig\Component\Domain\Event\DomainEvent;
-use Biig\Component\Domain\Event\DomainEventDispatcher;
+use Biig\Component\Domain\Event\DomainEventDispatcherInterface;
 
 trait DomainModelTrait
 {
     /**
-     * @var DomainEventDispatcher
+     * @var DomainEventDispatcherInterface
      */
     private $dispatcher;
 
@@ -21,25 +21,33 @@ trait DomainModelTrait
      */
     private $eventStack = [];
 
-    public function setDispatcher(DomainEventDispatcher $dispatcher)
+    public function setDispatcher(DomainEventDispatcherInterface $dispatcher)
     {
         $this->dispatcher = $dispatcher;
 
         if (!empty($this->eventStack)) {
             while ($event = array_pop($this->eventStack)) {
-                $this->dispatcher->dispatch($event['name'], $event['event']);
+                if (isset($event['name'])) {
+                    $this->dispatcher->dispatch($event['event'], $event['name']);
+                } else {
+                    $this->dispatcher->dispatch($event['event']);
+                }
             }
         }
     }
 
-    protected function dispatch(string $name, DomainEvent $event)
+    protected function dispatch(DomainEvent $event, string $name = null)
     {
         if (null === $this->dispatcher) {
-            $this->eventStack[] = ['name' => $name, 'event' => $event];
+            $eventToStack['event'] = $event;
+            if (!\is_null($name)) {
+                $eventToStack['name'] = $name;
+            }
+            $this->eventStack[] = $eventToStack;
 
             return;
         }
 
-        $this->dispatcher->dispatch($name, $event);
+        $this->dispatcher->dispatch($event, $name);
     }
 }

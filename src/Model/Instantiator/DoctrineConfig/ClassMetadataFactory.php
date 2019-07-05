@@ -2,7 +2,7 @@
 
 namespace Biig\Component\Domain\Model\Instantiator\DoctrineConfig;
 
-use Biig\Component\Domain\Event\DomainEventDispatcher;
+use Biig\Component\Domain\Event\DomainEventDispatcherInterface;
 use Doctrine\Common\Persistence\Mapping\ClassMetadata as ClassMetadataInterface;
 use Doctrine\Common\Persistence\Mapping\ReflectionService;
 use Doctrine\ORM\EntityManagerInterface;
@@ -11,7 +11,7 @@ use Doctrine\ORM\Mapping\ClassMetadataFactory as BaseClassMetadataFactory;
 final class ClassMetadataFactory extends BaseClassMetadataFactory
 {
     /**
-     * @var DomainEventDispatcher
+     * @var DomainEventDispatcherInterface
      */
     private $dispatcher;
 
@@ -29,9 +29,9 @@ final class ClassMetadataFactory extends BaseClassMetadataFactory
     }
 
     /**
-     * @param DomainEventDispatcher $dispatcher
+     * @param DomainEventDispatcherInterface $dispatcher
      */
-    public function setDispatcher(DomainEventDispatcher $dispatcher)
+    public function setDispatcher(DomainEventDispatcherInterface $dispatcher)
     {
         $this->dispatcher = $dispatcher;
     }

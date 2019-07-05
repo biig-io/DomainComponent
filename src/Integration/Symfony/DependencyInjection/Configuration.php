@@ -11,14 +11,8 @@ class Configuration implements ConfigurationInterface
     {
         $treeBuilder = new TreeBuilder('biig_domain');
 
-        if (method_exists($treeBuilder, 'getRootNode')) {
-            $rootNode = $treeBuilder->getRootNode();
-        } else {
-            // BC for symfony/config < 4.2
-            $rootNode = $treeBuilder->root('biig_domain');
-        }
-
-        $rootNode
+        $treeBuilder
+            ->getRootNode()
             ->children()
                 ->booleanNode('override_doctrine_instantiator')
                     ->defaultTrue()

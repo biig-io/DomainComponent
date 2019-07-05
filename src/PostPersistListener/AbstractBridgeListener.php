@@ -2,7 +2,7 @@
 
 namespace Biig\Component\Domain\PostPersistListener;
 
-use Biig\Component\Domain\Event\DomainEventDispatcher;
+use Biig\Component\Domain\Event\DomainEventDispatcherInterface;
 
 /**
  * The job of the children of this class is to take a persist event
@@ -11,11 +11,11 @@ use Biig\Component\Domain\Event\DomainEventDispatcher;
 abstract class AbstractBridgeListener
 {
     /**
-     * @var DomainEventDispatcher
+     * @var DomainEventDispatcherInterface
      */
     private $dispatcher;
 
-    public function __construct(DomainEventDispatcher $dispatcher)
+    public function __construct(DomainEventDispatcherInterface $dispatcher)
     {
         $this->dispatcher = $dispatcher;
     }

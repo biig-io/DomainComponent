@@ -2,7 +2,7 @@
 
 namespace Biig\Component\Domain\Model\Instantiator\DoctrineConfig;
 
-use Biig\Component\Domain\Event\DomainEventDispatcher;
+use Biig\Component\Domain\Event\DomainEventDispatcherInterface;
 use Biig\Component\Domain\Model\Instantiator\Instantiator as BaseInstantiator;
 use Doctrine\Instantiator\InstantiatorInterface;
 
@@ -11,7 +11,7 @@ use Doctrine\Instantiator\InstantiatorInterface;
  */
 class Instantiator extends BaseInstantiator implements InstantiatorInterface
 {
-    public function __construct(DomainEventDispatcher $dispatcher)
+    public function __construct(DomainEventDispatcherInterface $dispatcher)
     {
         parent::__construct($dispatcher);
     }
