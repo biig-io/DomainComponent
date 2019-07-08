@@ -105,7 +105,6 @@ final class DomainEventDispatcher extends EventDispatcher implements DomainEvent
      */
     public function persistModel(ModelInterface $model)
     {
-
         foreach ($this->delayedListeners as $listener) {
             if ($listener->shouldOccur($model)) {
                 $listener->process($model);
