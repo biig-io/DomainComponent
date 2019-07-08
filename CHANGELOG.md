@@ -17,6 +17,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## [2.0.0] - 2019-07-05
 ### Changed
 
+- Breaking changes: the prototype of `dispatch` method is inversed (event object first, then event name). 
+According to [Symfony dispatcher update](https://symfony.com/blog/new-in-symfony-4-3-simpler-event-dispatching)
 - Support for Symfony 4.3 and 5.0
 
 ### Fixed
