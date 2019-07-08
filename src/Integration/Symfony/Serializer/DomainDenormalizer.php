@@ -4,6 +4,7 @@ namespace Biig\Component\Domain\Integration\Symfony\Serializer;
 
 use Biig\Component\Domain\Event\DomainEventDispatcherInterface;
 use Biig\Component\Domain\Model\ModelInterface;
+use Symfony\Component\Serializer\Normalizer\CacheableSupportsMethodInterface;
 use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
@@ -13,7 +14,7 @@ use Symfony\Component\Serializer\SerializerInterface;
 /**
  * Class DomainDenormalizer.
  */
-final class DomainDenormalizer implements NormalizerInterface, DenormalizerInterface, SerializerAwareInterface
+final class DomainDenormalizer implements NormalizerInterface, DenormalizerInterface, SerializerAwareInterface, CacheableSupportsMethodInterface
 {
     /**
      * @var ObjectNormalizer
@@ -74,5 +75,10 @@ final class DomainDenormalizer implements NormalizerInterface, DenormalizerInter
         if ($this->decorated instanceof SerializerAwareInterface) {
             $this->decorated->setSerializer($serializer);
         }
+    }
+
+    public function hasCacheableSupportsMethod(): bool
+    {
+        return true;
     }
 }

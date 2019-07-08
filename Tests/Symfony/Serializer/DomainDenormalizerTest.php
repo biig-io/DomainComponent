@@ -8,6 +8,7 @@ use Biig\Component\Domain\Event\DomainEventDispatcher;
 use Biig\Component\Domain\Integration\Symfony\Serializer\DomainDenormalizer;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
+use Symfony\Component\Serializer\Normalizer\CacheableSupportsMethodInterface;
 use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 
@@ -62,5 +63,12 @@ class DomainDenormalizerTest extends TestCase
 
         $denormalizer = new DomainDenormalizer($this->decorated->reveal(), $this->dispatcher);
         $denormalizer->denormalize([], \FakeModel::class, null, []);
+    }
+
+    public function testItIsAnInstanceOfCacheableSupportsMethodInterface()
+    {
+        $denormalizer = new DomainDenormalizer($this->decorated->reveal(), $this->dispatcher);
+        $this->assertInstanceOf(CacheableSupportsMethodInterface::class, $denormalizer);
+        $this->assertTrue($denormalizer->hasCacheableSupportsMethod());
     }
 }
