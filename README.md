@@ -53,7 +53,7 @@ class YourModel extends DomainModel
     public const CREATION = 'creation';
     public function __construct()
     {
-        $this->dispatch(self::CREATION, new DomainEvent($this));
+        $this->dispatch(new DomainEvent($this), self::CREATION);
     }
 }
 ```
@@ -93,3 +93,14 @@ return [
 ```
 
 Learn more about [Symfony Integration](/docs/domain_event_dispatcher.md#symfony-integration)
+
+Versions
+--------
+
+| Version | Status     | Documentation | Symfony Version | PHP Version |
+|---------|------------|---------------| --------------- | ------------|
+| 1.x     | Maintained | [v1][v1-doc]  | '>= 3.3 && <5'  | '>= 7.1'    |
+| 2.x     | Latest     | [v2][v2-doc]  | '>= 4.3'        | '>= 7.1'    |
+
+[v1-doc]: https://github.com/biig-io/DomainComponent/tree/v1
+[v2-doc]: https://github.com/biig-io/DomainComponent

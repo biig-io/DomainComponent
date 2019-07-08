@@ -18,13 +18,13 @@ transform these events by redefining the dispatcher and transform the event:
 
 class WorkflowDomainEventDispatcher extends DomainEventDispatcher
 {
-    public function dispatch($eventName, Event $event = null)
+    public function dispatch(Event $event, $eventName = null)
     {
         if ($event instanceof \Symfony\Component\Workflow\Event\Event) {
             $event = new DomainEvent($event->getSubject(), [], $event);
         }
 
-        return parent::dispatch($eventName, $event);
+        return parent::dispatch($event, $eventName);
     }
 }
 ```
