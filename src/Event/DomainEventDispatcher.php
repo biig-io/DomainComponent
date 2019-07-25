@@ -80,13 +80,13 @@ final class DomainEventDispatcher extends EventDispatcher implements DomainEvent
     }
 
     /**
-     * @param Event|null $event
+     * @param Event|null  $event
+     * @param string|null $eventName
      *
      * @return Event
      */
-    public function dispatch($event/*, string $eventName = null*/)
+    public function dispatch($event, string $eventName = null)
     {
-        $eventName = 1 < \func_num_args() ? \func_get_arg(1) : null;
         $event = parent::dispatch($event, $eventName);
 
         if ($event instanceof DomainEvent) {
