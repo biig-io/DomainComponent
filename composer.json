@@ -18,7 +18,8 @@
         "doctrine/orm": "^2.6.3",
         "friendsofphp/php-cs-fixer": "^2.14",
         "doctrine/doctrine-bundle": "^1.8",
-        "symfony/symfony": "^4.3|^5.0"
+        "symfony/symfony": "^4.3|^5.0",
+        "biig/melodiia": "@dev"
     },
     "conflict": {
         "doctrine/orm": "<2.6.3"
