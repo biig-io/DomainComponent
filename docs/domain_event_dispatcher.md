@@ -32,7 +32,7 @@ $dispatcher->addRule(new class implements DomainRuleInterface {
 
 #### Add a post persist delayed rule
 
-This is useful for post flush processing.
+A post persist rule will occure only if the specified event is emit, but only after the data is persisted in storage. Basically flushed in the case of Doctrine.
 
 ```php
 <?php
@@ -49,6 +49,17 @@ $dispatcher->addRule(new class implements PostPersistDomainRuleInterface {
     }
 });
 ```
+
+Please notice you **need** to add some configuration to make it work:
+
+```yaml
+biig_domain:
+    persist_listeners:
+        # As doctrine supports many connections, you need to enable your connections one by one.
+        # The most common is named "default".
+        doctrine: ['default']
+```
+
 
 ### Symfony Integration
 
