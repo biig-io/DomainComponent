@@ -1,6 +1,6 @@
 {
     "name": "biig/domain",
-    "type": "library",
+    "type": "symfony-bundle",
     "license": "MIT",
     "require": {
         "php": ">=7.1",
