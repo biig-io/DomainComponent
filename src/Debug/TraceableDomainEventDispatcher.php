@@ -3,16 +3,12 @@
 namespace Biig\Component\Domain\Debug;
 
 use Biig\Component\Domain\Event\DelayedListener;
-use Biig\Component\Domain\Event\DomainEvent;
-use Biig\Component\Domain\Event\DomainEventDispatcher;
 use Biig\Component\Domain\Event\DomainEventDispatcherInterface;
-use Biig\Component\Domain\Exception\InvalidArgumentException;
 use Biig\Component\Domain\Model\ModelInterface;
 use Biig\Component\Domain\Rule\DomainRuleInterface;
 use Biig\Component\Domain\Rule\PostPersistDomainRuleInterface;
 use Psr\Log\NullLogger;
 use Symfony\Component\EventDispatcher\Debug\TraceableEventDispatcher;
-use Symfony\Component\EventDispatcher\Debug\WrappedListener;
 use Symfony\Component\Stopwatch\Stopwatch;
 
 class TraceableDomainEventDispatcher extends TraceableEventDispatcher implements DomainEventDispatcherInterface
@@ -23,7 +19,7 @@ class TraceableDomainEventDispatcher extends TraceableEventDispatcher implements
     private $eventsFired;
 
     /**
-     * @var DomainEventDispatcher
+     * @var DomainEventDispatcherInterface
      */
     private $decorated;
 
@@ -35,9 +31,9 @@ class TraceableDomainEventDispatcher extends TraceableEventDispatcher implements
     /**
      * TraceableDomainEventDispatcher constructor.
      *
-     * @param DomainEventDispatcher $dispatcher
+     * @param DomainEventDispatcherInterface $dispatcher
      */
-    public function __construct(DomainEventDispatcher $dispatcher)
+    public function __construct(DomainEventDispatcherInterface $dispatcher)
     {
         $this->eventsFired = [];
         $this->delayedListenersCalled = [];

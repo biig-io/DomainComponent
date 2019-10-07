@@ -38,6 +38,6 @@ class WrappedDelayedListenerTest extends TestCase
 
 class FakeCalleable
 {
-    public function execute($someParameter)
+    public static function execute($someParameter)
     {}
 }

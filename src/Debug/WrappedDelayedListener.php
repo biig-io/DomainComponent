@@ -2,6 +2,7 @@
 
 namespace Biig\Component\Domain\Debug;
 
+use Biig\Component\Domain\Event\DelayedListener;
 use Symfony\Component\VarDumper\Caster\ClassStub;
 
 class WrappedDelayedListener
@@ -26,14 +27,16 @@ class WrappedDelayedListener
      */
     private $name;
 
+    /**
+     * Does ClassStub class exists ?
+     * @var bool|null
+     */
     private static $hasClassStub;
 
     /**
-     * WrappedDelayedListener constructor.
-     *
-     * @param $listener
+     * @param DelayedListener $listener
      */
-    public function __construct($listener)
+    public function __construct(DelayedListener $listener)
     {
         $this->listener = $this->getListener($listener);
 
@@ -45,7 +48,7 @@ class WrappedDelayedListener
         }
     }
 
-    private function getListener($listener)
+    private function getListener(DelayedListener $listener)
     {
         $reflectionClass = new \ReflectionClass(get_class($listener));
         $listenerProperty = $reflectionClass->getProperty('listener');

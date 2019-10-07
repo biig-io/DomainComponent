@@ -14,4 +14,6 @@ interface DomainEventDispatcherInterface extends EventDispatcherInterface
     public function addPostPersistDomainRuleInterface(PostPersistDomainRuleInterface $rule);
 
     public function persistModel(ModelInterface $model);
+
+    public function getDelayedListeners(): array;
 }
