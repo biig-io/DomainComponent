@@ -6,6 +6,16 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [1.5.2] - 2019-11-15
+### Fixed
+
+- Don't register Domain denormalizer if Symfony serializer isn't register
+
+## [1.5.1] - 2019-10-05
+### Added
+
+- Add doctrine bundle in dependencies
+
 ## [1.5.0] - 2019-03-29
 ### Added
 
