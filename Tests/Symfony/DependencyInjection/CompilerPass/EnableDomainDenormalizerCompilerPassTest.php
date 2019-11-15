@@ -28,10 +28,10 @@ class EnableDomainDenormalizerCompilerPassTest extends TestCase
     public function testItAddsDefinitionServiceForDomainDenormalizer()
     {
         $compilerPass = new EnableDomainDenormalizerCompilerPass();
-        $compilerPass->process($this->getContainerMock());
+        $compilerPass->process($this->getContainerMock(false, true));
     }
 
-    private function getContainerMock($apiPlatform = false)
+    private function getContainerMock($apiPlatform = false, $symfonySerializer = false)
     {
         $container = $this->prophesize(ContainerBuilder::class);
         $definition = $this->prophesize(Definition::class);
@@ -39,6 +39,7 @@ class EnableDomainDenormalizerCompilerPassTest extends TestCase
         $container->hasDefinition('api_platform.jsonld.normalizer.item')->willReturn($apiPlatform ? $apiPlatform : []);
         $container->hasDefinition('api_platform.serializer.normalizer.item')->willReturn($apiPlatform ? $apiPlatform : []);
         $container->hasDefinition('api_platform.hal.normalizer.item')->willReturn($apiPlatform ? $apiPlatform : []);
+        $container->hasDefinition('serializer.normalizer.object')->willReturn($symfonySerializer ? $symfonySerializer : []);
 
         if ($apiPlatform) {
             //api_platform.jsonld.normalizer.item
@@ -64,11 +65,13 @@ class EnableDomainDenormalizerCompilerPassTest extends TestCase
 
         }
 
-        $definition->setDecoratedService(Argument::type('string'))->willReturn($definition)->shouldBeCalled();
-        $definition->addArgument(Argument::type(Reference::class))->willReturn($definition)->shouldBeCalled();
-        $definition->addArgument(new Reference('biig_domain.dispatcher'))->willReturn($definition)->shouldBeCalled();
-        $definition->setPublic(false)->willReturn($definition)->shouldBeCalled();
-        $container->register('biig.domain_denormalizer', DomainDenormalizer::class)->willReturn($definition);
+        if ($symfonySerializer) {
+            $definition->setDecoratedService(Argument::type('string'))->willReturn($definition)->shouldBeCalled();
+            $definition->addArgument(Argument::type(Reference::class))->willReturn($definition)->shouldBeCalled();
+            $definition->addArgument(new Reference('biig_domain.dispatcher'))->willReturn($definition)->shouldBeCalled();
+            $definition->setPublic(false)->willReturn($definition)->shouldBeCalled();
+            $container->register('biig.domain_denormalizer', DomainDenormalizer::class)->willReturn($definition);
+        }
 
         return $container->reveal();
     }
