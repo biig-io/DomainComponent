@@ -15,5 +15,5 @@ interface PostPersistDomainRuleInterface extends RuleInterface
      *
      * @return array|string
      */
-    public function after();
+    public static function after();
 }

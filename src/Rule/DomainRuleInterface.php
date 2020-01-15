@@ -9,5 +9,5 @@ interface DomainRuleInterface extends RuleInterface
      *
      * @return array|string
      */
-    public function on();
+    public static function on();
 }

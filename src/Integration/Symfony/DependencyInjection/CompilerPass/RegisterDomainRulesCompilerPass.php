@@ -27,6 +27,7 @@ class RegisterDomainRulesCompilerPass implements CompilerPassInterface
                     $this->addListenerForEventsInDefinition($id, $class, $attribute, $definition);
                 }
             } else {
+                $def->setLazy(true);
                 $definition->addMethodCall('addRule', [
                     new Reference($id),
                 ]);
