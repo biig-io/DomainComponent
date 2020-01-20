@@ -1,10 +1,11 @@
 {
     "name": "biig/domain",
-    "type": "library",
+    "type": "symfony-bundle",
     "license": "MIT",
     "require": {
         "php": ">=7.1",
         "symfony/event-dispatcher": "^4.3|^5.0",
+        "doctrine/doctrine-bundle": "^1.8",
         "doctrine/orm": "^2.6.3",
         "symfony/proxy-manager-bridge": "^4.4"
     },
@@ -18,7 +19,6 @@
         "phpunit/phpunit": "^6.4",
         "doctrine/orm": "^2.6.3",
         "friendsofphp/php-cs-fixer": "^2.14",
-        "doctrine/doctrine-bundle": "^1.8",
         "symfony/symfony": "^4.3|^5.0"
     },
     "conflict": {

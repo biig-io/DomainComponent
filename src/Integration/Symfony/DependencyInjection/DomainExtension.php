@@ -24,6 +24,10 @@ class DomainExtension extends Extension implements PrependExtensionInterface
         );
         $loader->load('services.yaml');
 
+        if ($container->getParameter('kernel.debug')) {
+            $loader->load('services.debug.yaml');
+        }
+
         $configuration = new Configuration();
         $config = $this->processConfiguration($configuration, $configs);
 

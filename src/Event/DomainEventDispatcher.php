@@ -7,8 +7,8 @@ use Biig\Component\Domain\Model\ModelInterface;
 use Biig\Component\Domain\Rule\DomainRuleInterface;
 use Biig\Component\Domain\Rule\PostPersistDomainRuleInterface;
 use Biig\Component\Domain\Rule\RuleInterface;
-use Symfony\Contracts\EventDispatcher\Event;
 use Symfony\Component\EventDispatcher\EventDispatcher;
+use Symfony\Contracts\EventDispatcher\Event;
 
 final class DomainEventDispatcher extends EventDispatcher implements DomainEventDispatcherInterface
 {
@@ -83,6 +83,8 @@ final class DomainEventDispatcher extends EventDispatcher implements DomainEvent
      * @param Event|null  $event
      * @param string|null $eventName
      *
+     * @throws \Biig\Component\Domain\Exception\InvalidDomainEvent
+     *
      * @return Event
      */
     public function dispatch($event, string $eventName = null)
@@ -110,5 +112,13 @@ final class DomainEventDispatcher extends EventDispatcher implements DomainEvent
                 $listener->process($model);
             }
         }
+    }
+
+    /**
+     * @return DelayedListener[]
+     */
+    public function getDelayedListeners(): array
+    {
+        return $this->delayedListeners;
     }
 }

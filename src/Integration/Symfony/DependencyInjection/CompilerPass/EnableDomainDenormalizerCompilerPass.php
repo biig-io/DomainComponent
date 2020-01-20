@@ -39,11 +39,13 @@ class EnableDomainDenormalizerCompilerPass implements CompilerPassInterface
             ;
         }
 
-        $container->register($serviceId, DomainDenormalizer::class)
-            ->setDecoratedService('serializer.normalizer.object')
-            ->addArgument(new Reference($serviceId . '.inner'))
-            ->addArgument(new Reference('biig_domain.dispatcher'))
-            ->setPublic(false)
-        ;
+        if ($container->hasDefinition('serializer.normalizer.object')) {
+            $container->register($serviceId, DomainDenormalizer::class)
+                ->setDecoratedService('serializer.normalizer.object')
+                ->addArgument(new Reference($serviceId . '.inner'))
+                ->addArgument(new Reference('biig_domain.dispatcher'))
+                ->setPublic(false)
+            ;
+        }
     }
 }

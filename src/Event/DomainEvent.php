@@ -5,7 +5,6 @@ namespace Biig\Component\Domain\Event;
 use Biig\Component\Domain\Exception\InvalidArgumentException;
 use Symfony\Component\EventDispatcher\GenericEvent;
 
-
 class DomainEvent extends GenericEvent
 {
     /**
@@ -16,7 +15,7 @@ class DomainEvent extends GenericEvent
     /**
      * If true, it will be raised after doctrine flush.
      *
-     * @var boolean
+     * @var bool
      */
     private $delayed;
 

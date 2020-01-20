@@ -1,0 +1,17 @@
+services:
+    Biig\Component\Domain\Debug\TraceableDomainEventDispatcher:
+        public: false
+        decorates: "biig_domain.dispatcher"
+        arguments:
+            - '@Biig\Component\Domain\Debug\TraceableDomainEventDispatcher.inner'
+
+    Biig\Component\Domain\DataCollector\DomainEventDataCollector:
+        arguments:
+            - '@Biig\Component\Domain\Debug\TraceableDomainEventDispatcher'
+            - '@request_stack'
+        tags:
+            -   name: data_collector
+                template: '@Domain/Collector/domain_event_template.html.twig'
+                id: 'biig_domain.domain_event_data_collector'
+        public: false
+
