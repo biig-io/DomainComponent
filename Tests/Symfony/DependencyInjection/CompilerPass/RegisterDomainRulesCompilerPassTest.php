@@ -80,7 +80,7 @@ class FooRule implements DomainRuleInterface
 {
     public function execute(DomainEvent $event) {}
 
-    public function on()
+    public static function on()
     {
         return 'test.event';
     }

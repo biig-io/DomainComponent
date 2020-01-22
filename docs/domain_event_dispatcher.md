@@ -24,7 +24,7 @@ $dispatcher->addRule(new class implements DomainRuleInterface {
         // add some specific behavior
     }
     
-    public function on() {
+    public static function on() {
         return 'on.event';
     }
 });
@@ -44,7 +44,7 @@ $dispatcher->addRule(new class implements PostPersistDomainRuleInterface {
         // add some specific behavior
     }
     
-    public function after() {
+    public static function after() {
         return 'on.event'; // You have to specify the model
     }
 });

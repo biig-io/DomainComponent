@@ -29,7 +29,7 @@ class DomainEventDispatcherTest extends TestCase
                 $event->getSubject()->setLowerFoo(strtolower($event->getSubject()->getFoo()));
             }
 
-            public function on()
+            public static function on()
             {
                 return 'foo.changed';
             }
@@ -81,7 +81,7 @@ class DomainEventDispatcherTest extends TestCase
                 );
             }
 
-            public function on()
+            public static function on()
             {
                 return ['foo.changed', 'bar.changed'];
             }
@@ -139,7 +139,7 @@ class DomainEventDispatcherTest extends TestCase
     {
         // Objects needed
         $rule = new class() implements PostPersistDomainRuleInterface {
-            public function after()
+            public static function after()
             {
                 return [\FakeModel::class => 'action'];
             }
@@ -173,12 +173,12 @@ class DomainEventDispatcherTest extends TestCase
         // Objects needed
         $rule = new class() implements PostPersistDomainRuleInterface, DomainRuleInterface {
             private $i = 0;
-            public function after()
+            public static function after()
             {
                 return [\FakeModel::class => 'action'];
             }
 
-            public function on()
+            public static function on()
             {
                 return 'previous_action';
             }

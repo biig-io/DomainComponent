@@ -61,7 +61,7 @@ class YourModel extends DomainModel
 ```php
 class DomainRule implements DomainRuleInterface
 {
-    public function on()
+    public static function on()
     {
         return YourModel::CREATION;
     }
