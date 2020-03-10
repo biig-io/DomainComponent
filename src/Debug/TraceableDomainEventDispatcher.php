@@ -81,6 +81,9 @@ class TraceableDomainEventDispatcher extends TraceableEventDispatcher implements
      */
     public function dispatch($event, string $eventName = null)
     {
+        if ($eventName === null) {
+            $eventName = get_class($event);
+        }
         $this->eventsFired[] = $eventName;
 
         return parent::dispatch($event, $eventName);
