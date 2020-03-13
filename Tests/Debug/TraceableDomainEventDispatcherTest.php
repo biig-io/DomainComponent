@@ -73,6 +73,17 @@ class TraceableDomainEventDispatcherTest extends TestCase
         $domainEventDispatcher->addPostPersistDomainRuleInterface($rule->reveal())->shouldBeCalled();
         $tdispatcher->addPostPersistDomainRuleInterface($rule->reveal());
     }
+
+    public function testTraceableNeverRegisterNullEvents()
+    {
+        $tdispatcher = new TraceableDomainEventDispatcher(new DomainEventDispatcher());
+        $tdispatcher->dispatch(new DomainEvent(), 'foo');
+        $tdispatcher->dispatch(new DomainEvent());
+
+        foreach ($tdispatcher->getEventsFired() as $firedEvents) {
+            $this->assertNotNull($firedEvents);
+        }
+    }
 }
 
 class FakeCalleable2 {
