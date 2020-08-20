@@ -28,8 +28,6 @@ class VerifyDoctrineConfigurationCompilerPass implements CompilerPassInterface
     }
 
     /**
-     * @param array $calls
-     *
      * @throws InvalidConfigurationException
      */
     private function verifyCalls(array $calls)
@@ -37,13 +35,7 @@ class VerifyDoctrineConfigurationCompilerPass implements CompilerPassInterface
         foreach ($calls as $call) {
             if ('setClassMetadataFactoryName' === $call[0]) {
                 if (ClassMetadataFactory::class !== $call[1][0]) {
-                    throw new InvalidConfigurationException(
-                        'The option "override_doctrine_instantiator", so this bundles tried to change the'
-                        . ' ClassMetadataFactory of doctrine by changing the DoctrineBundle configuration.'
-                        . ' The final configuration of the doctrine bundle doesn\'t looks like the one expected:'
-                        . ' Something probably altered the configuration. You may disable this feature by changing the default'
-                        . ' configuration or find what came override this. (It may be your manual configuration)'
-                    );
+                    throw new InvalidConfigurationException('The option "override_doctrine_instantiator", so this bundles tried to change the' . ' ClassMetadataFactory of doctrine by changing the DoctrineBundle configuration.' . ' The final configuration of the doctrine bundle doesn\'t looks like the one expected:' . ' Something probably altered the configuration. You may disable this feature by changing the default' . ' configuration or find what came override this. (It may be your manual configuration)');
                 }
             }
         }

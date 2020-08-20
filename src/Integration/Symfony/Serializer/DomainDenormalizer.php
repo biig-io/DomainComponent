@@ -35,7 +35,7 @@ final class DomainDenormalizer implements NormalizerInterface, DenormalizerInter
     /**
      * {@inheritdoc}
      */
-    public function denormalize($data, $class, $format = null, array $context = array())
+    public function denormalize($data, $class, $format = null, array $context = [])
     {
         $domain = $this->decorated->denormalize($data, $class, $format, $context);
 
@@ -57,7 +57,7 @@ final class DomainDenormalizer implements NormalizerInterface, DenormalizerInter
     /**
      * {@inheritdoc}
      */
-    public function normalize($object, $format = null, array $context = array())
+    public function normalize($object, $format = null, array $context = [])
     {
         return $this->decorated->normalize($object, $format, $context);
     }

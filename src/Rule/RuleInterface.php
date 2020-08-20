@@ -12,8 +12,5 @@ use Biig\Component\Domain\Event\DomainEvent;
  */
 interface RuleInterface
 {
-    /**
-     * @param DomainEvent $event
-     */
     public function execute(DomainEvent $event);
 }

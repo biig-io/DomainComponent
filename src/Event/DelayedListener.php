@@ -24,9 +24,6 @@ class DelayedListener
 
     /**
      * DelayedEvent constructor.
-     *
-     * @param string   $eventName
-     * @param callable $listener
      */
     public function __construct(string $eventName, callable $listener)
     {
@@ -36,8 +33,6 @@ class DelayedListener
     }
 
     /**
-     * @param DomainEvent $event
-     *
      * @throws InvalidDomainEvent
      */
     public function occur(DomainEvent $event)
@@ -46,12 +41,7 @@ class DelayedListener
         $subject = $event->getSubject();
 
         if (!is_object($subject) || !$subject instanceof ModelInterface) {
-            throw new InvalidDomainEvent(
-                sprintf(
-                    'The event "%s" is invalid because no domain model subject is specified while the event must be dispatched after persist.',
-                    get_class($event)
-                )
-            );
+            throw new InvalidDomainEvent(sprintf('The event "%s" is invalid because no domain model subject is specified while the event must be dispatched after persist.', get_class($event)));
         }
 
         $this->eventStack[] = $event;
@@ -59,8 +49,6 @@ class DelayedListener
 
     /**
      * Execute the listener on the events that already occurred.
-     *
-     * @param ModelInterface $model
      */
     public function process(ModelInterface $model)
     {
@@ -81,19 +69,11 @@ class DelayedListener
         }
     }
 
-    /**
-     * @return string
-     */
     public function getEventName(): string
     {
         return $this->eventName;
     }
 
-    /**
-     * @param ModelInterface $model
-     *
-     * @return bool
-     */
     public function shouldOccur(ModelInterface $model): bool
     {
         if (empty($this->eventStack)) {

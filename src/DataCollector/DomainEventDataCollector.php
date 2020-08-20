@@ -9,7 +9,6 @@ use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\DataCollector\DataCollector;
 use Symfony\Component\HttpKernel\DataCollector\LateDataCollectorInterface;
-use Symfony\Contracts\Service\ResetInterface;
 
 class DomainEventDataCollector extends DataCollector implements LateDataCollectorInterface
 {
@@ -32,9 +31,6 @@ class DomainEventDataCollector extends DataCollector implements LateDataCollecto
 
     /**
      * DomainEventDataCollector constructor.
-     *
-     * @param TraceableDomainEventDispatcher $dispatcher
-     * @param RequestStack              $requestStack
      */
     public function __construct(TraceableDomainEventDispatcher $dispatcher, RequestStack $requestStack)
     {
@@ -89,12 +85,6 @@ class DomainEventDataCollector extends DataCollector implements LateDataCollecto
         $this->data = $this->cloneVar($this->data);
     }
 
-    /**
-     * @param array  $listeners
-     * @param string $firedEvent
-     *
-     * @return array
-     */
     private function extractListeners(array $listeners, string $firedEvent): array
     {
         $filteredListeners = [];
@@ -144,8 +134,6 @@ class DomainEventDataCollector extends DataCollector implements LateDataCollecto
 
     /**
      * Sets the not called listeners.
-     *
-     * @param array $listeners
      *
      * @see TraceableEventDispatcher
      */
