@@ -24,7 +24,7 @@ class DomainExtension extends Extension implements PrependExtensionInterface
         );
         $loader->load('services.yaml');
 
-        if ($container->getParameter('kernel.debug')) {
+        if (class_exists('Symfony\\Bundle\\WebProfilerBundle\\DependencyInjection\\WebProfilerExtension') && $container->getParameter('kernel.debug')) {
             $loader->load('services.debug.yaml');
         }
 
@@ -45,8 +45,6 @@ class DomainExtension extends Extension implements PrependExtensionInterface
     /**
      * This may fail if a bundle (registered after this one) or a compiler pass modify the parameter.
      * The `VerifyDoctrineConfigurationCompilerPass` verify configuration integrity.
-     *
-     * @param ContainerBuilder $container
      */
     public function prepend(ContainerBuilder $container)
     {
@@ -82,7 +80,7 @@ class DomainExtension extends Extension implements PrependExtensionInterface
                     DoctrinePostPersistListener::class
                 )
                 ->setArgument(0, new Reference('biig_domain.dispatcher'))
-                ->addTag('doctrine.event_subscriber', array('connection' => $connection))
+                ->addTag('doctrine.event_subscriber', ['connection' => $connection])
             ;
         }
     }

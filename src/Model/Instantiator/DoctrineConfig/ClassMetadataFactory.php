@@ -28,9 +28,6 @@ final class ClassMetadataFactory extends BaseClassMetadataFactory
         return new ClassMetadata($className, new Instantiator($this->dispatcher), $this->entityManager->getConfiguration()->getNamingStrategy());
     }
 
-    /**
-     * @param DomainEventDispatcherInterface $dispatcher
-     */
     public function setDispatcher(DomainEventDispatcherInterface $dispatcher)
     {
         $this->dispatcher = $dispatcher;
@@ -50,9 +47,6 @@ final class ClassMetadataFactory extends BaseClassMetadataFactory
         $class->wakeupReflection($reflService);
     }
 
-    /**
-     * @param EntityManagerInterface $em
-     */
     public function setEntityManager(EntityManagerInterface $em)
     {
         $this->entityManager = $em;

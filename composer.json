@@ -18,7 +18,7 @@
         "phpunit/phpunit": "^6.4",
         "doctrine/orm": "^2.6.3",
         "friendsofphp/php-cs-fixer": "^2.14",
-        "symfony/symfony": "^4.3"
+        "symfony/symfony": "^4.3 || ^5.0"
     },
     "conflict": {
         "doctrine/orm": "<2.6.3"

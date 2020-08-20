@@ -24,8 +24,6 @@ final class DomainEventDispatcher extends EventDispatcher implements DomainEvent
     }
 
     /**
-     * @param RuleInterface $rule
-     *
      * @throws InvalidArgumentException
      */
     public function addRule(RuleInterface $rule)
@@ -43,9 +41,6 @@ final class DomainEventDispatcher extends EventDispatcher implements DomainEvent
         }
     }
 
-    /**
-     * @param DomainRuleInterface $rule
-     */
     public function addDomainRule(DomainRuleInterface $rule)
     {
         $events = $rule->on();
@@ -59,9 +54,6 @@ final class DomainEventDispatcher extends EventDispatcher implements DomainEvent
         }
     }
 
-    /**
-     * @param PostPersistDomainRuleInterface $rule
-     */
     public function addPostPersistDomainRuleInterface(PostPersistDomainRuleInterface $rule)
     {
         $events = $rule->after();
@@ -80,14 +72,13 @@ final class DomainEventDispatcher extends EventDispatcher implements DomainEvent
     }
 
     /**
-     * @param Event|null  $event
-     * @param string|null $eventName
+     * @param Event|null $event
      *
      * @throws \Biig\Component\Domain\Exception\InvalidDomainEvent
      *
      * @return Event
      */
-    public function dispatch($event, string $eventName = null)
+    public function dispatch($event, string $eventName = null): object
     {
         $event = parent::dispatch($event, $eventName);
 
@@ -102,9 +93,6 @@ final class DomainEventDispatcher extends EventDispatcher implements DomainEvent
         return $event;
     }
 
-    /**
-     * @param ModelInterface $model
-     */
     public function persistModel(ModelInterface $model)
     {
         foreach ($this->delayedListeners as $listener) {

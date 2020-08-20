@@ -29,13 +29,11 @@ class WrappedDelayedListener
 
     /**
      * Does ClassStub class exists ?
+     *
      * @var bool|null
      */
     private static $hasClassStub;
 
-    /**
-     * @param DelayedListener $listener
-     */
     public function __construct(DelayedListener $listener)
     {
         $this->listener = $this->getListener($listener);

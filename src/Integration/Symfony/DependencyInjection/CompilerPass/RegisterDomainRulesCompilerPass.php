@@ -35,11 +35,6 @@ class RegisterDomainRulesCompilerPass implements CompilerPassInterface
     }
 
     /**
-     * @param string     $id
-     * @param string     $class
-     * @param array      $attribute
-     * @param Definition $definition
-     *
      * @throws InvalidArgumentException
      */
     private function addListenerForEventsInDefinition(string $id, string $class, array $attribute, Definition $definition)
@@ -50,16 +45,11 @@ class RegisterDomainRulesCompilerPass implements CompilerPassInterface
         $priority = $attribute['priority'] ?? 0;
 
         if (!class_exists($class, false)) {
-            throw new InvalidArgumentException(
-                sprintf('Class "%s" used for service "%s" cannot be found.', $class, $id)
-            );
+            throw new InvalidArgumentException(sprintf('Class "%s" used for service "%s" cannot be found.', $class, $id));
         }
 
         if (null === $method || null === $event) {
-            throw new InvalidArgumentException(sprintf(
-                'Impossible to register class "%s" as domain rule: the service configuration is wrong. You need to specify either method, event or none. See documentation for more information.',
-                $class
-            ));
+            throw new InvalidArgumentException(sprintf('Impossible to register class "%s" as domain rule: the service configuration is wrong. You need to specify either method, event or none. See documentation for more information.', $class));
         }
 
         $definition->addMethodCall('addListener', [
@@ -71,8 +61,6 @@ class RegisterDomainRulesCompilerPass implements CompilerPassInterface
 
     /**
      * `!empty()` is not enough to check multidimensional arrays emptiness.
-     *
-     * @param array $attributes
      *
      * @return bool
      */

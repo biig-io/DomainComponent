@@ -21,9 +21,6 @@ class DoctrinePostPersistListener extends AbstractBridgeListener implements Even
      */
     private $modelsStageForFlush;
 
-    /**
-     * @param DomainEventDispatcherInterface $dispatcher
-     */
     public function __construct(DomainEventDispatcherInterface $dispatcher)
     {
         parent::__construct($dispatcher);
@@ -40,8 +37,6 @@ class DoctrinePostPersistListener extends AbstractBridgeListener implements Even
 
     /**
      * Cache entities that are going to be flush.
-     *
-     * @param OnFlushEventArgs $eventArgs
      */
     public function onFlush(OnFlushEventArgs $eventArgs)
     {
