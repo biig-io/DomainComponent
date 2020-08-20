@@ -41,8 +41,8 @@ class DomainDenormalizerTest extends TestCase
         $this->decorated->supportsDenormalization(Argument::cetera())->willReturn(false);
         $denormalizer = new DomainDenormalizer($this->decorated->reveal(), $this->dispatcher);
 
-        $this->assertFalse($denormalizer->supportsDenormalization([], \stdClass::class, []));
-        $this->assertFalse($denormalizer->supportsDenormalization([], \FakeModel::class, []));
+        $this->assertFalse($denormalizer->supportsDenormalization([], \stdClass::class, ''));
+        $this->assertFalse($denormalizer->supportsDenormalization([], \FakeModel::class, ''));
     }
 
     public function testItSupportsDenormalization()
@@ -50,8 +50,8 @@ class DomainDenormalizerTest extends TestCase
         $this->decorated->supportsDenormalization(Argument::cetera())->willReturn(true);
         $denormalizer = new DomainDenormalizer($this->decorated->reveal(), $this->dispatcher);
 
-        $this->assertTrue($denormalizer->supportsDenormalization([], \stdClass::class, []));
-        $this->assertTrue($denormalizer->supportsDenormalization([], \FakeModel::class, []));
+        $this->assertTrue($denormalizer->supportsDenormalization([], \stdClass::class, ''));
+        $this->assertTrue($denormalizer->supportsDenormalization([], \FakeModel::class, ''));
     }
 
     public function testDenormalize()
