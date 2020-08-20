@@ -5,6 +5,11 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+
+## [2.1.4] - 2020-08-20
+### Fixed
+- Compatibilty with Symfony 4.3 (and 5.x), basically make the library usable again.
+
 ## [2.1.2] - 2020-03-09
 ### Fixed
 - Change the interface used in the DomainEventDispatcherInterface for the event dispatcher to make it compliant
