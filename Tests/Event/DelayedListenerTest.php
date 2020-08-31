@@ -78,7 +78,7 @@ class DelayedListenerTest extends TestCase
                 $this->entityManager = $entityManager;
             }
 
-            public function after()
+            public static function after()
             {
                 return [\FakeModel::class => 'action'];
             }
@@ -168,7 +168,7 @@ class CountAndInsertRule implements PostPersistDomainRuleInterface
         $this->entityManager = $entityManager;
     }
 
-    public function after()
+    public static function after()
     {
         return [\FakeModel::class => 'action'];
     }
