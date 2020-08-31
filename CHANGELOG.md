@@ -6,9 +6,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
-## [2.1.4] - 2020-08-20
+## [2.1.4] - 2020-09-01
 ### Fixed
 - Compatibilty with Symfony 4.3 (and 5.x), basically make the library usable again.
+- Compatibility with Doctrine 2.7
 
 ## [2.1.2] - 2020-03-09
 ### Fixed
