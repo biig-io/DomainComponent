@@ -10,7 +10,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\DataCollector\DataCollector;
 use Symfony\Component\HttpKernel\DataCollector\LateDataCollectorInterface;
 
-class DomainEventDataCollector extends DataCollector implements LateDataCollectorInterface
+abstract class AbstractDomainEventDataCollector extends DataCollector implements LateDataCollectorInterface
 {
     public const NAME = 'biig_domain.domain_event_data_collector';
 
@@ -22,12 +22,12 @@ class DomainEventDataCollector extends DataCollector implements LateDataCollecto
     /**
      * @var RequestStack
      */
-    private $requestStack;
+    protected $requestStack;
 
     /**
      * @var Request|null
      */
-    private $currentRequest;
+    protected $currentRequest;
 
     /**
      * DomainEventDataCollector constructor.
@@ -41,16 +41,6 @@ class DomainEventDataCollector extends DataCollector implements LateDataCollecto
     public function getName()
     {
         return self::NAME;
-    }
-
-    public function collect(Request $request, Response $response, \Exception $exception = null)
-    {
-        $this->currentRequest = $this->requestStack->getMasterRequest() !== $request ? $request : null;
-        $this->data = [
-            'called_listeners' => [],
-            'called_delayed_listeners' => [],
-            'not_called_listeners' => [],
-        ];
     }
 
     public function reset()
@@ -152,5 +142,34 @@ class DomainEventDataCollector extends DataCollector implements LateDataCollecto
     public function getNotCalledListeners()
     {
         return $this->data['not_called_listeners'] ?? [];
+    }
+}
+
+if (method_exists(TraceableEventDispatcher::class, 'preDispatch')) {
+    class DomainEventDataCollector extends AbstractDomainEventDataCollector
+    {
+        // Compatibility layer with Sf 4.3 & 4.4
+        public function collect(Request $request, Response $response /*, \Throwable $exception = null */)
+        {
+            $this->currentRequest = $this->requestStack->getMasterRequest() !== $request ? $request : null;
+            $this->data = [
+                'called_listeners' => [],
+                'called_delayed_listeners' => [],
+                'not_called_listeners' => [],
+            ];
+        }
+    }
+} else {
+    class DomainEventDataCollector extends AbstractDomainEventDataCollector
+    {
+        public function collect(Request $request, Response $response, \Throwable $exception = null)
+        {
+            $this->currentRequest = $this->requestStack->getMasterRequest() !== $request ? $request : null;
+            $this->data = [
+                'called_listeners' => [],
+                'called_delayed_listeners' => [],
+                'not_called_listeners' => [],
+            ];
+        }
     }
 }
